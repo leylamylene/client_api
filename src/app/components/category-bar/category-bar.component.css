@@ -1,0 +1,9 @@
+.button-wrapper {
+  padding-inline: 15px;
+  border-radius: 2px;
+}
+
+
+.transparent {
+    background-color: transparent;
+}

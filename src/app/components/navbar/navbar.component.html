@@ -1,0 +1,32 @@
+<div class="nav">
+  <input type="checkbox" id="nav-check" />
+  <div class="nav-header">
+    <div class="nav-title">Neffty</div>
+  </div>
+  <div class="nav-btn">
+    <label for="nav-check">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  </div>
+
+  <div class="nav-links">
+    <a (click)="hover(true)">Drops</a>
+    <div
+      (mouseenter)="hover(true)"
+      (mouseleave)="hover(false)"
+      *ngIf="hovered"
+      class="dropdown-content"
+    >
+      <a href="#">Option 1</a>
+      <a href="#">Option 2</a>
+      <a href="#">Option 3</a>
+    </div>
+
+    <a target="_blank">Stats</a>
+    <a target="_blank">Create</a>
+    <a target="_blank" (click)="openSignUp()" class="button-nav">Sign up</a>
+    <a target="_blank">JsFiddle</a>
+  </div>
+</div>
