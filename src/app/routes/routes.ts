@@ -1,23 +1,19 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from '../home/home.component';
-import { DetailsComponent } from '../details/details.component';
+import { AppLayoutComponent } from '../layout/app.layout.component';
+import { HomeComponent } from '../pages/home/home.component';
 
 const routeConfig: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: AppLayoutComponent,
     title: 'Home page',
   },
-  {
-    path: 'category',
-    loadChildren: () =>
-      import('./category-bar-routes').then((r) => r.CATEGORY_ROUTES),
-  },
 
+  {path :'home', component
+ : HomeComponent},
   {
-    path: 'details/:id',
-    component: DetailsComponent,
-    title: 'Home details',
+    path: 'auth',
+    loadChildren :()=>import('./auth.routes').then(r=>r.AUTH_ROUTES)
   },
 ];
 

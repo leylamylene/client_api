@@ -1,0 +1,120 @@
+<div
+  class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
+>
+  <div class="flex flex-column align-items-center justify-content-center">
+    <img
+      src="assets/layout/images/{{
+        layoutService.config().colorScheme === 'light'
+          ? 'logo-dark'
+          : 'logo-white'
+      }}.svg"
+      alt="Sakai logo"
+      class="mb-5 w-6rem flex-shrink-0"
+    />
+    <div
+      style="
+        border-radius: 56px;
+        padding: 0.3rem;
+        background: linear-gradient(
+          180deg,
+          var(--primary-color) 10%,
+          rgba(33, 150, 243, 0) 30%
+        );
+      "
+    >
+      <div
+        class="w-full surface-card py-8 px-5 sm:px-8"
+        style="border-radius: 53px"
+      >
+        <div class="text-center mb-5">
+          <img
+            src="assets/demo/images/login/avatar.png"
+            alt="Image"
+            height="50"
+            class="mb-3"
+          />
+          <div class="text-900 text-3xl font-medium mb-3">Welcome</div>
+          <span class="text-600 font-medium">Connect to Neffty</span>
+        </div>
+        <form
+          *ngIf="!pdLessPart_1"
+          [formGroup]="loginForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <p-inputGroup>
+            <input
+              type="text"
+              class="w-full"
+              formControlName="email"
+              pInputText
+              placeholder="Email"
+              style="padding-right: 1rem"
+            />
+            <button
+              pButton
+              pRipple
+              icon="pi pi-arrow-right"
+              [disabled]="
+                (!loginForm.controls['email'].pristine &&
+                  loginForm.controls['email'].hasError('email')) ||
+                loginForm.controls['email'].pristine
+              "
+              (onClick)="onSubmit()"
+            ></button>
+          </p-inputGroup>
+          <div class="text custom-text">
+            Morbi tristique blandit turpis. In viverra ligula id nulla hendrerit
+            rutrum. {{ loginForm.controls["email"].hasError("email") }}
+          </div>
+          <div
+            class="flex align-items-center justify-content-between mb-5 gap-5"
+          ></div>
+          <div class="container">
+            <div class="item" (click)="metamaskConnect()">
+              <div class="element">Metamask</div>
+              <div class="element"></div>
+            </div>
+            <div class="item">
+              <div class="element">Coinbase Wallet</div>
+              <div class="element"></div>
+            </div>
+            <div class="item">
+              <div class="element">Wallet Connect</div>
+              <div class="element"></div>
+            </div>
+          </div>
+        </form>
+        <form
+          *ngIf="pdLessPart_1"
+          [formGroup]="codeVerifForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <div
+            class="container flex flex-row justify-content-between"
+            [formGroup]="codeVerifForm"
+          >
+            <div
+              *ngFor="
+                let input of codeVerifForm.controls | keyvalue;
+                let i = index
+              "
+            >
+              <input
+               pInputText
+                [formControlName]="input.key"
+                type="number"
+                min="0"
+                max="9"
+                (keyup)="onKeyup(i, $event)"
+                [autofocus]="i===0"
+                class="p-codeverif"
+                required
+              />
+
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
