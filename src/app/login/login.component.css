@@ -1,0 +1,183 @@
+.flex-container {
+  background-color: var(--dark-background);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex: 1;
+  padding-block: 5%;
+}
+
+.inline {
+  flex-direction: column;
+}
+.flex-items:nth-child(1) {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+
+  order: 0;
+  flex: 1;
+}
+
+.flex-items:nth-child(2) {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+  flex: 1;
+}
+
+.text-input {
+  border: none;
+  border-bottom: 1px solid var(--dark-brown); /* White bottom border */
+  background: transparent; /* No background color */
+  font-size: 12px; /* Placeholder font size */
+  color: var(--grey); /* Placeholder color */
+  padding: 10px; /* Add some padding for better appearance */
+  transition: all 0.3s; /* Smooth transition when focused */
+  outline: none; /* Remove default focus outline */
+  margin-bottom: 10px;
+  width: 60%;
+}
+
+/* Style for the input field when focused */
+.text-input:focus::placeholder {
+  font-size: 12px; /* Smaller font size when focused */
+  transform: translateY(-14px); /* Slide up the placeholder */
+  transition: transform 0.3s ease; /* Smooth translation */
+}
+
+.form-title {
+  font-family: Arial, sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+  color: var(--primary);
+  text-shadow: 1px 1px #ccc;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-title:hover {
+  color: #a35c5c;
+}
+.submit-button {
+  display: inline-block;
+  padding: 7px 40px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px; /* Rounded borders */
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.submit-button:hover {
+  background-color: var(--hard-primary);
+  padding: 7px 50px;
+  transition: cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.2s;
+}
+
+.background-container {
+  position: relative;
+  width: 100%;
+  height: 400px; /* Set your desired height */
+  background-image: url("/assets/register-image.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.blurred-image {
+  filter: blur(8px); /* Apply blur effect only to the background image */
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.centered-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.top-left {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+}
+
+.logo-title {
+  color: var(--grey);
+  font-family: Arial, sans-serif;
+  font-size: 80px;
+}
+
+.error-message {
+  color: rgb(242, 144, 127);
+  font-size: 8px;
+  width: 60%;
+  line-height: 8px;
+}
+
+.custom-text {
+  width: 100%;
+  margin-top: 20px;
+  color: grey;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.item {
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 6px;
+  gap: 10px;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.item:hover {
+  background-color: #99989836;
+}
+
+.element {
+  height: 30px;
+  border: 1px solid black;
+}
+
+
+.p-codeverif {
+  padding : 1rem 0.75rem !important;
+  -moz-appearance: textfield;
+  text-align: center;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
