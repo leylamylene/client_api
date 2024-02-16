@@ -19,6 +19,8 @@ import { LayoutService } from '../layout/service/app.layout.service';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { Subscription } from 'rxjs';
 import { AutoFocusModule } from 'primeng/autofocus';
+import web3 from '../web3'; //
+import { MeatamaskLoginService } from '../services/metamask/meatamask-login.service';
 @Component({
   selector: 'app-register-form',
   standalone: true,
@@ -48,7 +50,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authService: AuthService,
     public layoutService: LayoutService,
-    private router: Router
+    private router: Router,
+    private metamaskLoginS: MeatamaskLoginService
   ) {}
 
   ngOnInit(): void {
@@ -111,8 +114,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
   }
 
-  metamaskConnect() {
-    console.log('metamask clicked');
+  async metamaskConnect() {
+ 
+    this.metamaskLoginS.connectMetamask();
   }
   onKeyup(i: number, event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;

@@ -165,13 +165,15 @@
 }
 
 .element {
-  height: 30px;
-  border: 1px solid black;
+  height: 50px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-
+  
 .p-codeverif {
-  padding : 1rem 0.75rem !important;
+  padding: 1rem 0.75rem !important;
   -moz-appearance: textfield;
   text-align: center;
 }
@@ -180,4 +182,14 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.img-logo {
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+}
+
+.wallet-name {
+  margin-left: 12px;
 }

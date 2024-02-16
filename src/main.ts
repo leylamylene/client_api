@@ -21,7 +21,7 @@ import { importProvidersFrom } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './app/interceptors/authInterceptor';
 import { SpinnerInterceptor } from './app/interceptors/spinnerInterceptor';
-
+import { ErrorInterceptor } from './app/interceptors/errorInterceptor';
 bootstrapApplication(AppComponent, {
   providers: [
     provideProtractorTestingSupport(),
@@ -37,6 +37,8 @@ bootstrapApplication(AppComponent, {
       useClass: SpinnerInterceptor,
       multi: true,
     },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
     importProvidersFrom(
       MatDialogModule,
       BrowserModule,

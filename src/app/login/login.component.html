@@ -71,11 +71,24 @@
           ></div>
           <div class="container">
             <div class="item" (click)="metamaskConnect()">
-              <div class="element">Metamask</div>
-              <div class="element"></div>
+              <div class="element spaced">
+                <img
+                  src="../../assets/layout/images/metamask.png"
+                  class="img-logo"
+                />
+                <p class="wallet-name">Metamask</p>
+              </div>
+              <div class="element"><p>Popular</p></div>
             </div>
             <div class="item">
-              <div class="element">Coinbase Wallet</div>
+              <div class="element">
+                <img
+                  src="../../assets/layout/images/coinbase.png"
+                  class="img-logo"
+                />
+                <p class="wallet-name">Coinbase</p>
+              </div>
+
               <div class="element"></div>
             </div>
             <div class="item">
@@ -100,17 +113,16 @@
               "
             >
               <input
-               pInputText
+                pInputText
                 [formControlName]="input.key"
                 type="number"
                 min="0"
                 max="9"
                 (keyup)="onKeyup(i, $event)"
-                [autofocus]="i===0"
+                [autofocus]="i === 0"
                 class="p-codeverif"
                 required
               />
-
             </div>
           </div>
         </form>
