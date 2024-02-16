@@ -19,7 +19,6 @@ import { LayoutService } from '../layout/service/app.layout.service';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { Subscription } from 'rxjs';
 import { AutoFocusModule } from 'primeng/autofocus';
-import web3 from '../web3'; //
 import { MeatamaskLoginService } from '../services/metamask/meatamask-login.service';
 @Component({
   selector: 'app-register-form',
@@ -115,7 +114,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   async metamaskConnect() {
- 
     this.metamaskLoginS.connectMetamask();
   }
   onKeyup(i: number, event: KeyboardEvent) {
