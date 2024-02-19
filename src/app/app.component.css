@@ -37,13 +37,11 @@
   }
 }
 
-
-#toast {
+.toast {
   visibility: hidden;
   max-width: 50%;
-  min-height:90px ;
+  min-height: 90px;
   margin: auto;
-  background-color: #ec9595b1;
   text-align: center;
   border-radius: 5px;
   padding: 16px;
@@ -56,6 +54,17 @@
   transform: translateX(-50%);
 }
 
+#toastSuccess {
+  background-color: #8de987b1;
+}
+#disconnected {
+  background-color: #87c0e9b1;
+}
+
+#toast {
+  background-color: #ec9595b1;
+}
+
 #toast.show {
   visibility: visible;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
@@ -63,21 +72,45 @@
 }
 
 @-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;} 
-  to {bottom: 30px; opacity: 1;}
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes fadeout {
-  from {bottom: 30px; opacity: 1;} 
-  to {bottom: 0; opacity: 0;}
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }
 
 @keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }

@@ -17,15 +17,12 @@ export class SpinnerInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log('spinner interceptor')
-
     // Check if the custom header is present
     if (req.headers.get('Show-Spinner')) {
       this.loaderService.setLoading(true);
       return next.handle(req).pipe(
         finalize(() => {
           this.loaderService.setLoading(false);
-          console.log('setting loading');
         })
       );
     } else {
