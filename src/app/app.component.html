@@ -1,0 +1,28 @@
+<div class="layout-wrapper">
+  <app-topbar></app-topbar>
+  <div class="layout-main-container">
+    <div class="layout-main">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+  </div>
+  <app-config></app-config>
+  <div class="layout-mask"></div>
+</div>
+<ng-container *ngIf="loading">
+  <div class="spinner-overlay">
+    <div class="spinner"></div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="error.message">
+  <div id="toast" class="toast show">
+    <div id="desc">{{ error.message }}</div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="success">
+  <div id="toastSuccess" class="toast show">
+    <div id="desc1">Your request was successfully processed</div>
+  </div>
+</ng-container>

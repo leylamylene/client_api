@@ -20,8 +20,10 @@ export class ErrorHandlerService {
   }
 
   setError(errorResponse: any) {
-    this.error.next({ status: errorResponse.status, message: errorResponse.error } );
-    
+    this.error.next({
+      status: errorResponse.status,
+      message: errorResponse.error,
+    });
   }
 
   getError() {

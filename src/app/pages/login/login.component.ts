@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Signal, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,7 +7,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
-import { AuthService } from '../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 
 import { ButtonModule } from 'primeng/button';
@@ -15,11 +14,12 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { Router, RouterLink } from '@angular/router';
-import { LayoutService } from '../layout/service/app.layout.service';
+import { LayoutService } from '../../layout/service/app.layout.service';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { Subscription } from 'rxjs';
 import { AutoFocusModule } from 'primeng/autofocus';
-import { MeatamaskLoginService } from '../services/metamask/meatamask-login.service';
+import { MetamaskLoginService } from '../../services/auth/metamask/meatamask-login.service';
+import { EmailLoginService } from '../../services/auth/email/email-login.service';
 @Component({
   selector: 'app-register-form',
   standalone: true,
@@ -42,20 +42,21 @@ import { MeatamaskLoginService } from '../services/metamask/meatamask-login.serv
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
   codeVerifForm!: FormGroup;
-  subscription!: Subscription;
+  login$!: Subscription;
+  auth$!: Subscription;
   pdLessPart_1: boolean = false;
-  loggedIn: boolean = false;
+
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private emailService: EmailLoginService,
     public layoutService: LayoutService,
     private router: Router,
-    private metamaskLoginS: MeatamaskLoginService
+    private metamaskLoginSrv: MetamaskLoginService
   ) {}
 
   ngOnInit(): void {
     this.createloginForm();
-    this.createCodeVerifFor();
+    this.createCodeVerifF();
   }
   createloginForm(): void {
     this.loginForm = this.fb.group({
@@ -63,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  createCodeVerifFor(): void {
+  createCodeVerifF(): void {
     this.codeVerifForm = this.fb.group({
       input1: [''],
       input2: [''],
@@ -72,19 +73,20 @@ export class LoginComponent implements OnInit, OnDestroy {
       input5: [''],
       input6: [''],
     });
-    this.authenticate();
+    this.authenticateListener();
   }
 
-  authenticate() {
+  authenticateListener() {
     this.codeVerifForm.valueChanges.subscribe((value) => {
       if (Object.values(value).join('').length == 6) {
-        this.authService
-          .authenticatePdLess(
+        this.auth$ = this.emailService
+          .authenticatePwrdLess(
             this.loginForm.controls['email'].value,
             Object.values(value).join('')
           )
-          .subscribe((value) => {
-            if (value.token) {
+          .subscribe((authResut) => {
+            if (authResut.token) {
+              this.emailService.setSession(authResut);
               this.router.navigate(['home']);
             }
           });
@@ -92,29 +94,23 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  handleAuthResponse(value: any) {
-    this.authService.setSession(value);
-  }
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.callLogin();
     } else {
-      // Form is invalid
-      console.log('Form is invalid. Please check the fields.');
     }
   }
 
   callLogin() {
-    this.subscription = this.authService
+    this.login$ = this.emailService
       .passwordlessLogin(this.loginForm.controls['email'].value)
       .subscribe((data) => {
-        console.log('data', data);
         this.pdLessPart_1 = true;
       });
   }
 
   async metamaskConnect() {
-    this.metamaskLoginS.connectMetamask();
+    this.metamaskLoginSrv.connectMetamask();
   }
   onKeyup(i: number, event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
@@ -129,6 +125,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.login$) this.login$.unsubscribe();
+    if (this.auth$) this.auth$.unsubscribe();
   }
 }

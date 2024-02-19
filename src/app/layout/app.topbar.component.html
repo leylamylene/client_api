@@ -49,7 +49,7 @@
         layoutService.state.profileSidebarVisible
     }"
   >
-    <div *ngIf="!layoutService.state.profileSidebarVisible">
+    <div *ngIf="!isLoggedIn()">
       <button
         pButton
         pRipple
@@ -75,13 +75,5 @@
       <i class="pi pi-cog"></i>
       <span>Settings</span>
     </button>
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Login"
-      [routerLink]="'/auth/login'"
-      class="p-button-outlined p-button-secondary"
-    ></button>
   </div>
 </div>
