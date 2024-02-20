@@ -1,0 +1,84 @@
+<div class="grid-container">
+  <!-- Left Column: Drag & Drop File -->
+  <div class="left-column">
+    <div class="file-drop-zone">
+      <div
+        class="drag-drop-area"
+        (drop)="onFileDropped($event)"
+        (dragover)="onDragOver($event)"
+      >
+        <img *ngIf="isImage" [src]="filePreview" alt="File Preview" />
+        <button
+          *ngIf="isImage"
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-times"
+          class="p-button-rounded p-button-danger delete"
+          (click)="deleteFile()"
+        ></button>
+
+        <label class="custom-file-upload">
+          <input
+            type="file"
+            id="fileInput"
+            (change)="onFileSelected($event)"
+            accept="image/*, video/*"
+          />
+          Browse files
+        </label>
+        <!-- Add styling for drag-and-drop area -->
+        <!-- Display selected file name -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Inputs -->
+  <div class="right-column">
+    <form>
+      <input
+        type="text"
+        class="w-full"
+        formControlName="email"
+        pInputText
+        placeholder="Name your NFT"
+        style="padding-right: 1rem; margin-bottom: 30px"
+      />
+      <input
+        type="text"
+        class="w-full"
+        formControlName="email"
+        pInputText
+        placeholder="Supply"
+        style="padding-right: 1rem; margin-bottom: 30px"
+      />
+      <input
+        type="text"
+        class="w-full"
+        formControlName="email"
+        pInputText
+        placeholder="External Link"
+        style="padding-right: 1rem; margin-bottom: 30px"
+      />
+      <textarea
+        rows="5"
+        cols="30"
+        class="w-full"
+        placeholder="Enter a description"
+        pInputTextarea
+      ></textarea>
+
+      <!-- Add more input fields as needed -->
+    </form>
+    <!-- Create Button -->
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Create"
+      class="p-button-raised"
+      style="margin-top: 20px"
+      (click)="createForm()"
+    ></button>
+  </div>
+</div>
