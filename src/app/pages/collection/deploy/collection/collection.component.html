@@ -1,0 +1,54 @@
+<div class="flex flex-column eighty align-items-center align-self-center">
+  <div class="flex justify-content-start w-full add-collection">
+    <div class="drag-drop">
+      <label class="custom-file-upload">
+        <input
+          type="file"
+          id="fileInput"
+          (change)="onFileSelected($event)"
+          accept="image/*, video/*"
+        />
+        ¨
+        <p style="font-size: 60px">+</p>
+      </label>
+    </div>
+    <div>
+      <p>Drag and drop or click to upload</p>
+      <p>You may change this after the deploying your contract</p>
+      <p>Recommended size : 350 x 350 . File type : JPG, PNG, SVG, or GIF</p>
+    </div>
+  </div>
+  <input
+    type="text"
+    class="w-full"
+    formControlName="email"
+    pInputText
+    placeholder="Your contract name"
+    style="padding-right: 1rem; margin-bottom: 30px"
+  />
+
+  <input
+    type="text"
+    class="w-full"
+    formControlName="email"
+    pInputText
+    placeholder="Token symbol"
+    style="padding-right: 1rem; margin-bottom: 30px"
+  />
+
+  <div class="flex flex-row align-self-start">
+    <div class="blockchain flex justify-content-center align-items-center">
+      Ethereum
+    </div>
+    <div class="blockchain flex justify-content-center align-items-center
+    
+    ">
+      Polygon
+    </div>
+    <div class="blockchain flex justify-content-center align-items-center
+    
+    ">
+      More options
+    </div>
+  </div>
+</div>

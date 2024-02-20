@@ -31,6 +31,7 @@ import { EmailLoginService } from '../../services/auth/email/email-login.service
     ButtonModule,
     CheckboxModule,
     InputTextModule,
+    
     PasswordModule,
     RouterLink,
     InputGroupModule,
