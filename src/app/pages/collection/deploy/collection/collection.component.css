@@ -1,0 +1,55 @@
+.add-collection {
+  border-radius: 5px;
+  background-color: rgba(90, 101, 111, 0.116);
+  border: 1px solid rgba(139, 139, 149, 0);
+
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+.add-collection:hover {
+  border: 1px solid rgba(139, 139, 149, 0.595);
+}
+
+.eighty {
+  padding-inline: 25%;
+}
+
+.drag-drop {
+  height: 120px;
+  width: 120px;
+  background-color: rgba(90, 101, 111, 0.378);
+  border-radius: 12px;
+  margin-right: 20px;
+}
+
+.custom-file-upload {
+  border: none;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  color: rgb(147, 147, 246);
+  /* Add more styling as needed */
+}
+
+/* Hide the default file input button */
+input[type="file"] {
+  display: none;
+}
+
+.blockchain {
+  height: 250px;
+  width: 200px;
+  border-radius: 12px;
+  border: 1px solid rgba(90, 101, 111, 0.378);
+  margin-right: 20px;
+}
+
+.blockchain:hover {
+  border: 1px solid rgba(163, 204, 243, 0.378);
+}

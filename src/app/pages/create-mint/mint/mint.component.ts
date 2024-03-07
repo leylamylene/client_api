@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -16,6 +17,8 @@ export class MintComponent {
   filePreview: string | ArrayBuffer | null = null;
   isImage = false;
   isVideo = false;
+
+  constructor(private router: Router) {}
   onFileSelected(event: Event): void {
     // Handle file selection (e.g., store file data)
   }
@@ -62,5 +65,9 @@ export class MintComponent {
     this.filePreview = null;
     this.isImage = false;
     this.isVideo = false;
+  }
+
+  addCollection() {
+    this.router.navigate(['/collection/deploy']);
   }
 }
