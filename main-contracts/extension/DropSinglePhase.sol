@@ -1,41 +1,22 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.19;
+// SPDX-License-Identifier: Apache-2.0
+pragma solidity ^0.8.0;
 
-/// @author Laila El Hajjamy
+/// @author thirdweb
 
-import "../utils/MerkleProof.sol";
+import "../interfaces/IDropSinglePhase.sol";
+import "../library/MerkleProof.sol";
 
-abstract contract DropSinglePhase {
+abstract contract DropSinglePhase is IDropSinglePhase {
+  /// @dev The sender is not authorized to perform the action
   error DropUnauthorized();
 
+  /// @dev Exceeded the max token total supply
   error DropExceedMaxSupply();
 
+  /// @dev No active claim condition
   error DropNoActiveCondition();
-  struct AllowlistProof {
-    bytes32[] proof;
-    uint256 quantityLimitPerWallet;
-    uint256 pricePerToken;
-    address currency;
-  }
 
-  struct ClaimCondition {
-    uint256 startTimestamp;
-    uint256 maxClaimableSupply;
-    uint256 supplyClaimed;
-    uint256 quantityLimitPerWallet;
-    bytes32 merkleRoot;
-    uint256 pricePerToken;
-    address currency;
-    string metadata;
-  }
-
-  event TokensClaimed(
-    address indexed claimer,
-    address indexed receiver,
-    uint256 indexed startTokenId,
-    uint256 quantityClaimed
-  );
-
+  /// @dev Claim condition invalid currency or price
   error DropClaimInvalidTokenPrice(
     address expectedCurrency,
     uint256 expectedPricePerToken,
@@ -43,20 +24,39 @@ abstract contract DropSinglePhase {
     uint256 actualExpectedPricePerToken
   );
 
+  /// @dev Claim condition exceeded limit
   error DropClaimExceedLimit(uint256 expected, uint256 actual);
 
+  /// @dev Claim condition exceeded max supply
   error DropClaimExceedMaxSupply(uint256 expected, uint256 actual);
 
+  /// @dev Claim condition not started yet
   error DropClaimNotStarted(uint256 expected, uint256 actual);
 
+  /*///////////////////////////////////////////////////////////////
+                            State variables
+    //////////////////////////////////////////////////////////////*/
+
+  /// @dev The active conditions for claiming tokens.
   ClaimCondition public claimCondition;
 
+  /// @dev The ID for the active claim condition.
   bytes32 private conditionId;
 
-  event ClaimConditionUpdated(ClaimCondition condition, bool resetEligibility);
+  /*///////////////////////////////////////////////////////////////
+                                Mappings
+    //////////////////////////////////////////////////////////////*/
 
+  /**
+   *  @dev Map from a claim condition uid and account to supply claimed by account.
+   */
   mapping(bytes32 => mapping(address => uint256)) private supplyClaimedByWallet;
 
+  /*///////////////////////////////////////////////////////////////
+                            Drop logic
+    //////////////////////////////////////////////////////////////*/
+
+  /// @dev Lets an account claim tokens.
   function claim(
     address _receiver,
     uint256 _quantity,
@@ -64,7 +64,7 @@ abstract contract DropSinglePhase {
     uint256 _pricePerToken,
     AllowlistProof calldata _allowlistProof,
     bytes memory _data
-  ) public payable virtual {
+  ) public payable virtual override {
     _beforeClaim(
       _receiver,
       _quantity,
@@ -84,11 +84,14 @@ abstract contract DropSinglePhase {
       _allowlistProof
     );
 
+    // Update contract state.
     claimCondition.supplyClaimed += _quantity;
     supplyClaimedByWallet[activeConditionId][_dropMsgSender()] += _quantity;
 
+    // If there's a price, collect price. (the claimers pay a price to a recipient)
     _collectPriceOnClaim(address(0), _quantity, _currency, _pricePerToken);
 
+    // Mint the relevant NFTs to claimer.
     uint256 startTokenId = _transferTokensOnClaim(_receiver, _quantity);
 
     emit TokensClaimed(_dropMsgSender(), _receiver, startTokenId, _quantity);
@@ -103,10 +106,11 @@ abstract contract DropSinglePhase {
     );
   }
 
+  /// @dev Lets a contract admin set claim conditions.
   function setClaimConditions(
     ClaimCondition calldata _condition,
     bool _resetClaimEligibility
-  ) external {
+  ) external override {
     if (!_canSetClaimConditions()) {
       revert DropUnauthorized();
     }
@@ -140,6 +144,7 @@ abstract contract DropSinglePhase {
     emit ClaimConditionUpdated(_condition, _resetClaimEligibility);
   }
 
+  /// @dev Checks a request to claim NFTs against the active claim condition's criteria.
   function verifyClaim(
     address _claimer,
     uint256 _quantity,
@@ -152,6 +157,10 @@ abstract contract DropSinglePhase {
     uint256 claimPrice = currentClaimPhase.pricePerToken;
     address claimCurrency = currentClaimPhase.currency;
 
+    /*
+     * Here `isOverride` implies that if the merkle proof verification fails,
+     * the claimer would claim through open claim limit instead of allowlisted limit.
+     */
     if (currentClaimPhase.merkleRoot != bytes32(0)) {
       (isOverride, ) = MerkleProof.verify(
         _allowlistProof.proof,
@@ -218,16 +227,23 @@ abstract contract DropSinglePhase {
     }
   }
 
+  /// @dev Returns the supply claimed by claimer for active conditionId.
   function getSupplyClaimedByWallet(
     address _claimer
   ) public view returns (uint256) {
     return supplyClaimedByWallet[conditionId][_claimer];
   }
 
+  /*////////////////////////////////////////////////////////////////////
+        Optional hooks that can be implemented in the derived contract
+    ///////////////////////////////////////////////////////////////////*/
+
+  /// @dev Exposes the ability to override the msg sender.
   function _dropMsgSender() internal virtual returns (address) {
     return msg.sender;
   }
 
+  /// @dev Runs before every `claim` function call.
   function _beforeClaim(
     address _receiver,
     uint256 _quantity,
@@ -237,6 +253,7 @@ abstract contract DropSinglePhase {
     bytes memory _data
   ) internal virtual {}
 
+  /// @dev Runs after every `claim` function call.
   function _afterClaim(
     address _receiver,
     uint256 _quantity,
@@ -246,6 +263,7 @@ abstract contract DropSinglePhase {
     bytes memory _data
   ) internal virtual {}
 
+  /// @dev Collects and distributes the primary sale value of NFTs being claimed.
   function _collectPriceOnClaim(
     address _primarySaleRecipient,
     uint256 _quantityToClaim,
@@ -253,6 +271,7 @@ abstract contract DropSinglePhase {
     uint256 _pricePerToken
   ) internal virtual;
 
+  /// @dev Transfers the NFTs being claimed.
   function _transferTokensOnClaim(
     address _to,
     uint256 _quantityBeingClaimed
