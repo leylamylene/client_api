@@ -1,25 +1,23 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.19;
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
 
 /// @author Laila El Hajjamy
 
+import "../interfaces/IPrimarySale.sol";
 
-
-abstract contract PrimarySale {
-  event PrimarySaleRecipientUpdated(address indexed recipient);
-
+abstract contract PrimarySale is IPrimarySale {
   error PrimarySaleUnauthorized();
-
   error PrimarySaleInvalidRecipient(address recipient);
 
+  // address that receives all primary sales values
   address private recipient;
 
-  function primarySaleRecipient() public view returns (address) {
+  function primarySaleRecipient() public view override returns (address) {
     return recipient;
   }
 
-
-  function setPrimarySaleRecipient(address _saleRecipient) external {
+  function setPrimarySaleRecipient(address _saleRecipient) external override {
     if (!_canSetPrimarySaleRecipient()) {
       revert PrimarySaleUnauthorized();
     }
@@ -32,7 +30,7 @@ abstract contract PrimarySale {
     }
 
     recipient = _saleRecipient;
-    emit PrimarySaleRecipientUpdated(_saleRecipient);
+    emit PrimarySaleRecipientUpdate(_saleRecipient);
   }
 
   function _canSetPrimarySaleRecipient() internal view virtual returns (bool);
