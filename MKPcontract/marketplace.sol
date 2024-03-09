@@ -1,7 +1,6 @@
 // SPDX-Licence-Identifier : UNLICENCED
 pragma solidity ^0.8.19;
 
-
 /// @author Laila El hajjamy
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/utils/math/SafeCast.sol";
