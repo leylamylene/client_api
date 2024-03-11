@@ -20,8 +20,8 @@ import { of } from 'rxjs';
   selector: 'app-topbar',
   templateUrl: './app.topbar.component.html',
   standalone: true,
-
   imports: [CommonModule, RouterLink, ButtonModule],
+  styleUrls: ['./app.topbar.component.css'],
 })
 export class AppTopBarComponent implements OnInit {
   isLoggedIn: Signal<boolean | undefined> = signal(false);
