@@ -1,16 +1,5 @@
-<div
-  class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
->
-  <div class="flex flex-column align-items-center justify-content-center">
-    <img
-      src="assets/layout/images/{{
-        layoutService.config().colorScheme === 'light'
-          ? 'logo-dark'
-          : 'logo-white'
-      }}.svg"
-      alt="Sakai logo"
-      class="mb-5 w-6rem flex-shrink-0"
-    />
+<div class="flex justify-center items-center h-screen bg-stone-500">
+  <div class="flex flex-col w-96 bg-stone-800 rounded-3xl">
     <div
       style="
         border-radius: 56px;
@@ -27,14 +16,12 @@
         style="border-radius: 53px"
       >
         <div class="text-center mb-5">
-          <img
-            src="assets/demo/images/login/avatar.png"
-            alt="Image"
-            height="50"
-            class="mb-3"
-          />
-          <div class="text-900 text-3xl font-medium mb-3">Welcome</div>
-          <span class="text-600 font-medium">Connect to Neffty</span>
+          <div class="text-900 text-3xl font-medium mb-3 text-stone-200">
+            Welcome
+          </div>
+          <span class="text-600 font-medium text-stone-400"
+            >Connect to Neffty</span
+          >
         </div>
         <form
           *ngIf="!pdLessPart_1"
@@ -44,15 +31,13 @@
           <p-inputGroup>
             <input
               type="text"
-              class="w-full"
+              class="w-full rounded-lg p-3 bg-stone-700 hover:bg-stone-600"
               formControlName="email"
               pInputText
               placeholder="Email"
               style="padding-right: 1rem"
             />
             <button
-              pButton
-              pRipple
               icon="pi pi-arrow-right"
               [disabled]="
                 (!loginForm.controls['email'].pristine &&
@@ -63,8 +48,7 @@
             ></button>
           </p-inputGroup>
           <div class="text custom-text">
-            Morbi tristique blandit turpis. In viverra ligula id nulla hendrerit
-            rutrum. {{ loginForm.controls["email"].hasError("email") }}
+            {{ loginForm.controls["email"].hasError("email") }}
           </div>
           <div
             class="flex align-items-center justify-content-between mb-5 gap-5"
@@ -72,27 +56,21 @@
           <div class="container">
             <div class="item" (click)="metamaskConnect()">
               <div class="element spaced">
-                <img
-                  src="../../assets/layout/images/metamask.png"
-                  class="img-logo"
-                />
-                <p class="wallet-name">Metamask</p>
+                <img src="../../assets/metamask.png" class="img-logo" />
+                <p class="wallet-name text-stone-400">Metamask</p>
               </div>
-              <div class="element"><p>Popular</p></div>
+              <div class="element text-stone-400"><p>Popular</p></div>
             </div>
             <div class="item">
               <div class="element">
-                <img
-                  src="../../assets/layout/images/coinbase.png"
-                  class="img-logo"
-                />
-                <p class="wallet-name">Coinbase</p>
+                <img src="../../assets/coinbase.png" class="img-logo" />
+                <p class="wallet-name text-stone-400">Coinbase</p>
               </div>
 
               <div class="element"></div>
             </div>
             <div class="item">
-              <div class="element">Wallet Connect</div>
+              <div class="element text-stone-400">Wallet Connect</div>
               <div class="element"></div>
             </div>
           </div>

@@ -1,80 +1,56 @@
-<div class="layout-topbar">
-  <!-- <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo">
-        <span>SAKAI</span>
-    </a> -->
-  <img
-    src="assets/layout/images/{{
-      layoutService.config().colorScheme === 'light'
-        ? 'logo-dark'
-        : 'logo-white'
-    }}.svg"
-    alt="logo"
-  />
-
-  <button
-    pButton
-    pRipple
-    type="button"
-    label="Drops"
-    class="p-button-text p-button-plain"
-  ></button>
-  <button
-    pButton
-    pRipple
-    type="button"
-    label="Stats"
-    class="p-button-text p-button-plain"
-  ></button>
-  <button
-    pButton
-    pRipple
-    type="button"
-    label="Create"
-    [routerLink]="'/mint'"
-    class="p-button-text p-button-plain"
-  ></button>
-
-  <button
-    #topbarmenubutton
-    class="p-link layout-topbar-menu-button layout-topbar-button"
-    (click)="layoutService.showProfileSidebar()"
-  >
-    <i class="pi pi-ellipsis-v"></i>
-  </button>
-  <div
-    #topbarmenu
-    class="layout-topbar-menu"
-    [ngClass]="{
-      'layout-topbar-menu-mobile-active':
-        layoutService.state.profileSidebarVisible
-    }"
-  >
-    <div *ngIf="!isLoggedIn()">
-      <button
-        pButton
-        pRipple
-        type="button"
-        label="Login"
-        [routerLink]="'/auth/login'"
-        class="p-button-outlined p-button-secondary"
-      ></button>
-    </div>
-
-    <!-- add login link when sidebar is visible -->
-    <button class="p-link layout-topbar-button">
-      <i class="pi pi-calendar"></i>
-      <span>Calendar</span>
+<div class="flex justify-between items-center px-6 py-3 bg-stone-800">
+  <div class="md:flex hidden">
+    <button class="mx-2 bg-none text-stone-100 rounded px-2 py-1">Drops</button>
+    <button class="mx-2 bg-none text-stone-100 rounded px-2 py-1">Stats</button>
+    <button
+      class="mx-2 bg-none text-stone-100 rounded px-2 py-1"
+      [routerLink]="'/mint'"
+    >
+      Create
     </button>
-
-    <button class="p-link layout-topbar-button">
-      <i class="pi pi-user"></i>
-      <span>Profile</span>
+  </div>
+  <div class="md:hidden">
+    <button
+      class="flex items-center px-3 py-2 border rounded text-white border-white"
+    >
+      <svg
+        class="fill-current h-3 w-3"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>Menu</title>
+        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+      </svg>
     </button>
-
-    <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
-      <i class="pi pi-cog"></i>
-      <span>Settings</span>
+  </div>
+  <div class="flex md:mx-6">
+    <input
+      class="w-96 rounded p-2 bg-stone-700 hover:bg-stone-600"
+      type="text"
+      placeholder="Search..."
+    />
+  </div>
+  <div class="flex items-center">
+    <svg
+      class="h-6 w-6 fill-current text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M4 4v16h16V4H4zm8 12a4 4 0 100-8 4 4 0 000 8z"
+      />
+    </svg>
+    <button
+      *ngIf="!isLoggedIn()"
+      class="ml-2 bg-none text-stone-100 rounded px-2 py-1"
+      [routerLink]="'/auth/login'"
+    >
+      login
     </button>
   </div>
 </div>
