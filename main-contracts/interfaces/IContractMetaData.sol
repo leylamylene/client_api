@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-/// @author Laila El Hajjamy
+/// @author Laila El Hajjamy, thirdweb
 
 interface IContractMetaData {
   function contractURI() external view returns (string memory);

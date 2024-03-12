@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-///@author Laila EL Hajjamy ;
+///@author Laila EL Hajjamy , thirdweb
 
 interface IOwnable {
   function owner() external view returns (address);

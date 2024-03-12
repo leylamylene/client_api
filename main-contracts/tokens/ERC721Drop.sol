@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache 2.0
 pragma solidity ^0.8.0;
 
-/// @author Laila E l Hajjamy
+/// @author Laila E l Hajjamy, thirdweb
 
 import "../base/ERC721A.sol";
 import "../extension/ContractMetaData.sol";
@@ -17,6 +17,8 @@ import "../extension/PrimarySale.sol";
 import "../extension/LazyMint.sol";
 
 import "../extension/DelayedReveal.sol";
+
+import "../extension/PlatformFee.sol";
 
 import "../extension/DropSinglePhase.sol";
 import "../extension/Multicall.sol";
@@ -34,21 +36,28 @@ contract ERC721Drop is
   PrimarySale,
   LazyMint,
   DelayedReveal,
-  DropSinglePhase
+  DropSinglePhase,
+  PlatformFee
 {
   using Strings for uint256;
 
+  // setApprovalForAll(operator, true) to let the market transfers nfts
   constructor(
     address _defaultAdmin,
     string memory _name,
     string memory _symbol,
     address _royaltyRecipient,
     uint128 _royaltyBps,
-    address _primarySaleRecipient
+    address _primarySaleRecipient,
+    address _platfromFeeRecipient,
+    uint256 _platformFeeBps,
+    address operator
   ) ERC721A(_name, _symbol) {
     _setupOwner(_defaultAdmin);
     _setupDefaultRoyaltyInfo(_royaltyRecipient, _royaltyBps);
     _setupPrimarySaleRecipient(_primarySaleRecipient);
+    _setupPlatformFeeInfo(_platfromFeeRecipient, _platformFeeBps);
+    setApprovalForAll(operator, true);
   }
 
   function tokenURI(
@@ -159,11 +168,18 @@ contract ERC721Drop is
     address saleRecipient = _primarySaleRecipient == address(0)
       ? primarySaleRecipient()
       : _primarySaleRecipient;
+
     CurrencyTransferLib.transferCurrency(
       _currency,
-      msg.sender,
+      _msgSender(),
+      getPlatformFeeRecipient(),
+      getPlatformFeeBps()
+    );
+    CurrencyTransferLib.transferCurrency(
+      _currency,
+      _msgSender(),
       saleRecipient,
-      totalPrice
+      totalPrice - getPlatformFeeBps()
     );
   }
 

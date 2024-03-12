@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
-/// @author Laila El Hajjamy
+/// @author Laila El Hajjamy, thirdweb
 
 interface ILazyMint {
   /// @dev Emitted when tokens are lazy minted.

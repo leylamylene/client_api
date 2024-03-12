@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
-/// @author Laila El Hajjamy
+/// @author Laila El Hajjamy, thirdweb
 
 import "../library/Address.sol";
 

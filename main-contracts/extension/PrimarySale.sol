@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-/// @author Laila El Hajjamy
+/// @author Laila El Hajjamy, thirdweb
 
 import "../interfaces/IPrimarySale.sol";
 
@@ -24,6 +24,8 @@ abstract contract PrimarySale is IPrimarySale {
     _setupPrimarySaleRecipient(_saleRecipient);
   }
 
+
+
   function _setupPrimarySaleRecipient(address _saleRecipient) internal {
     if (_saleRecipient == address(0)) {
       revert PrimarySaleInvalidRecipient(_saleRecipient);
@@ -32,6 +34,9 @@ abstract contract PrimarySale is IPrimarySale {
     recipient = _saleRecipient;
     emit PrimarySaleRecipientUpdate(_saleRecipient);
   }
+
+
+
 
   function _canSetPrimarySaleRecipient() internal view virtual returns (bool);
 }
