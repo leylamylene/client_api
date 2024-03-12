@@ -1,17 +1,15 @@
-<div class="grid-container">
+<div class="grid-container bg-stone-800">
   <!-- Left Column: Drag & Drop File -->
   <div class="left-column">
     <div class="file-drop-zone">
       <div
-        class="drag-drop-area"
+        class="drag-drop-area bg-stone-700 hover:bg-stone-600 rounded-lg"
         (drop)="onFileDropped($event)"
         (dragover)="onDragOver($event)"
       >
         <img *ngIf="isImage" [src]="filePreview" alt="File Preview" />
         <button
           *ngIf="isImage"
-          pButton
-          pRipple
           type="button"
           icon="pi pi-times"
           class="p-button-rounded p-button-danger delete"
@@ -36,20 +34,22 @@
   <!-- Right Column: Inputs -->
   <div class="right-column">
     <form>
-      <div class="add-collection" (click)="addCollection()">
+      <div
+        class="add-collection bg-stone-700 hover:bg-stone-600"
+        (click)="addCollection()"
+      >
         <div class="add-button">
           <p>+</p>
         </div>
         <div
           class="flex column justify-content-center align-items-center align-self-center"
-         
         >
-          <p>Create a new collection</p>
+          <p class="text-stone-300">Create a new collection</p>
         </div>
       </div>
       <input
         type="text"
-        class="w-full"
+        class="w-full rounded-lg p-3 bg-stone-700 hover:bg-stone-600"
         formControlName="email"
         pInputText
         placeholder="Name your NFT"
@@ -57,7 +57,7 @@
       />
       <input
         type="text"
-        class="w-full"
+        class="w-full rounded-lg p-3 bg-stone-700 hover:bg-stone-600"
         formControlName="email"
         pInputText
         placeholder="Supply"
@@ -65,7 +65,7 @@
       />
       <input
         type="text"
-        class="w-full"
+        class="w-full rounded-lg p-3 bg-stone-700 hover:bg-stone-600"
         formControlName="email"
         pInputText
         placeholder="External Link"
@@ -74,7 +74,7 @@
       <textarea
         rows="5"
         cols="30"
-        class="w-full"
+        class="w-full rounded-lg p-3 bg-stone-700 hover:bg-stone-600"
         placeholder="Enter a description"
         pInputTextarea
       ></textarea>

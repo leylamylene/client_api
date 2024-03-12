@@ -1,4 +1,5 @@
 .grid-container {
+  padding-block: 5%;
   padding-inline: 10%;
   display: grid;
   align-self: center;
@@ -35,7 +36,7 @@
 }
 
 .drag-drop-area:hover {
-  background-color: rgba(90, 101, 111, 0.378);
+  /* background-color: rgba(90, 101, 111, 0.378); */
 }
 
 .file-drop-zone label {
@@ -67,7 +68,7 @@ input[type="file"] {
 .add-collection {
   height: 80px;
   border-radius: 5px;
-  background-color: rgba(90, 101, 111, 0.116);
+  /* background-color: rgba(90, 101, 111, 0.116); */
   padding: 12px;
   display: flex;
   flex-direction: row;
@@ -78,7 +79,7 @@ input[type="file"] {
   margin-bottom: 30px;
 }
 .add-collection:hover {
-  background-color: rgba(90, 101, 111, 0.378);
+  /* background-color: rgba(90, 101, 111, 0.378); */
 }
 
 .add-button {

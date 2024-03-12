@@ -1,5 +1,5 @@
 <div class="flex justify-center items-center h-screen bg-stone-500">
-  <div class="flex flex-col w-96 bg-stone-800 rounded-3xl">
+  <div class="flex flex-col w-auto bg-stone-800 rounded-3xl">
     <div
       style="
         border-radius: 56px;
@@ -31,7 +31,8 @@
           <p-inputGroup>
             <input
               type="text"
-              class="w-full rounded-lg p-3 bg-stone-700 hover:bg-stone-600"
+              class="
+              w-96 rounded-lg p-3 bg-stone-700 hover:bg-stone-600"
               formControlName="email"
               pInputText
               placeholder="Email"
@@ -81,7 +82,7 @@
           (ngSubmit)="onSubmit()"
         >
           <div
-            class="container flex flex-row justify-content-between"
+            class="flex flex-row justify-between"
             [formGroup]="codeVerifForm"
           >
             <div
@@ -91,14 +92,13 @@
               "
             >
               <input
-                pInputText
                 [formControlName]="input.key"
                 type="number"
                 min="0"
                 max="9"
                 (keyup)="onKeyup(i, $event)"
                 [autofocus]="i === 0"
-                class="p-codeverif"
+                class="p-3 bg-stone-700 hover:bg-stone-600 rounded mx-4"
                 required
               />
             </div>
