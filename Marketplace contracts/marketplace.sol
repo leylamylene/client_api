@@ -4,12 +4,17 @@ pragma solidity ^0.8.19;
 /// @author Laila El hajjamy, thirdweb
 // change this later with ERC1155A if needed and all its occurences
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/interfaces/IERC2981.sol";
+
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import "./IMarketplace.sol";
 import "../main-contracts/extension/Permissions.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 import "../main-contracts/eip/IERC721A.sol";
+import "../main-contracts/extension//ReentrancyGuard.sol";
+import "../main-contracts/library/CurrencyTransferLib.sol";
 
 contract Marketplace is
   IPlatformFee,
@@ -17,7 +22,8 @@ contract Marketplace is
   Permissions,
   IERC165,
   IERC721Receiver,
-  IERC1155Receiver
+  IERC1155Receiver,
+  ReentrancyGuard
 {
   using SafeCast for uint256;
 
@@ -30,7 +36,8 @@ contract Marketplace is
   bytes32 private constant ASSET_ROLE = keccak256("ASSET_ROLE");
 
   uint64 public constant MAX_BPS = 10_000;
-
+  /// @dev The address of the native token wrapper contract.
+  address private immutable nativeTokenWrapper;
   uint64 private platformFeeBps;
 
   uint64 public timeBuffer;
@@ -58,7 +65,9 @@ contract Marketplace is
     _;
   }
 
-  constructor() {}
+  constructor(address _nativeTokenWrapper) {
+    nativeTokenWrapper = _nativeTokenWrapper;
+  }
 
   function initialize(
     address _defaultAdmin,
@@ -207,6 +216,7 @@ contract Marketplace is
     require(safeNewQuantity != 0, "QUANTITY");
 
     // Can only edit auction listing before it starts.
+
     if (isAuction) {
       require(block.timestamp < targetListing.startTime, "STARTED");
       require(
@@ -242,10 +252,7 @@ contract Marketplace is
       listingType: targetListing.listingType
     });
 
-    // Must validate ownership and approval of the new quantity of tokens for direct listing.
     if (targetListing.quantity != safeNewQuantity) {
-      // Transfer all escrowed tokens back to the lister, to be reflected in the lister's
-      // balance for the upcoming ownership and approval check.
       if (isAuction) {
         transferListingTokens(
           address(this),
@@ -289,6 +296,402 @@ contract Marketplace is
     emit ListingRemoved(_listingId, targetListing.tokenOwner);
   }
 
+  /*////////////////////////////////////////////////////////////////////
+                     Direct listings sales logic
+/////////////////////////////////////////////////////////////////////*/
+
+  function buy(
+    uint256 _listingId,
+    address _buyFor,
+    uint256 _quantityToBuy,
+    address _currency,
+    uint256 _totalPrice
+  ) external payable override nonReentrant onlyExistingListing(_listingId) {
+    Listing memory targetListing = listings[_listingId];
+    address payer = _msgSender();
+    require(
+      _currency == targetListing.currency &&
+        _totalPrice == (targetListing.buyoutPricePerToken * _quantityToBuy),
+      "! Price or currency is invalid"
+    );
+
+    executeSale(
+      targetListing,
+      payer,
+      _buyFor,
+      targetListing.currency,
+      targetListing.buyoutPricePerToken * _quantityToBuy,
+      _quantityToBuy
+    );
+  }
+
+  function acceptOffer(
+    uint256 _listingId,
+    address _offeror,
+    address _currency,
+    uint256 _pricePerToken
+  )
+    external
+    override
+    nonReentrant
+    onlyExistingListing(_listingId)
+    onlyListingCreator(_listingId)
+  {
+    Offer memory targetOffer = offers[_listingId][_offeror];
+    Listing memory targetListing = listings[_listingId];
+    require(
+      _currency == targetOffer.currency &&
+        _pricePerToken == targetOffer.pricePerToken,
+      "!PRICE"
+    );
+    require(targetOffer.expirationTimestamp > block.timestamp, "EXPIRED");
+    delete offers[_listingId][_offeror];
+
+    executeSale(
+      targetListing,
+      _offeror,
+      _offeror,
+      targetOffer.currency,
+      targetOffer.pricePerToken * targetOffer.quantityWanted,
+      targetOffer.quantityWanted
+    );
+  }
+
+  function offer(
+    uint256 _listingId,
+    uint256 _quantityWanted,
+    address _currency,
+    uint256 _pricePerToken,
+    uint256 _expirationTimestamp
+  ) external payable override nonReentrant onlyExistingListing(_listingId) {
+    Listing memory targetListing = listings[_listingId];
+    require(
+      targetListing.endTime > block.timestamp &&
+        targetListing.startTime < block.timestamp,
+      " Inactive listing"
+    );
+    Offer memory newOffer = Offer({
+      listingId: _listingId,
+      offeror: _msgSender(),
+      quantityWanted: _quantityWanted,
+      currency: _currency,
+      pricePerToken: _pricePerToken,
+      expirationTimestamp: _expirationTimestamp
+    });
+
+    if (targetListing.listingType == ListingType.Auction) {
+      require(
+        newOffer.currency == targetListing.currency,
+        "must use approved currency to bid"
+      );
+      require(newOffer.pricePerToken != 0, "bidding zero amount");
+      newOffer.quantityWanted = getSafeQuantity(
+        targetListing.tokenType,
+        targetListing.quantity
+      );
+      handleBid(targetListing, newOffer);
+    } else if (targetListing.listingType == ListingType.Direct) {
+      require(msg.value == 0, "No value needed");
+      newOffer.currency = _currency == CurrencyTransferLib.NATIVE_TOKEN
+        ? nativeTokenWrapper
+        : _currency;
+      newOffer.quantityWanted = getSafeQuantity(
+        targetListing.tokenType,
+        _quantityWanted
+      );
+
+      handleOffer(targetListing, newOffer);
+    }
+  }
+
+  /// @dev Processes an incoming bid in an auction.
+  function handleBid(
+    Listing memory _targetListing,
+    Offer memory _incomingBid
+  ) internal {
+    Offer memory currentWinningBid = winningBid[_targetListing.listingId];
+    uint256 currentOfferAmount = currentWinningBid.pricePerToken *
+      currentWinningBid.quantityWanted;
+    uint256 incomingOfferAmount = _incomingBid.pricePerToken *
+      _incomingBid.quantityWanted;
+    address _nativeTokenWrapper = nativeTokenWrapper;
+
+    // Close auction and execute sale if there's a buyout price and incoming offer amount is buyout price.
+    if (
+      _targetListing.buyoutPricePerToken > 0 &&
+      incomingOfferAmount >=
+      _targetListing.buyoutPricePerToken * _targetListing.quantity
+    ) {
+      _closeAuctionForBidder(_targetListing, _incomingBid);
+    } else {
+      /**
+       *      If there's an existng winning bid, incoming bid amount must be bid buffer % greater.
+       *      Else, bid amount must be at least as great as reserve price
+       */
+      require(
+        isNewWinningBid(
+          _targetListing.reservePricePerToken * _targetListing.quantity,
+          currentOfferAmount,
+          incomingOfferAmount
+        ),
+        "not winning bid."
+      );
+
+      // Update the winning bid and listing's end time before external contract calls.
+      winningBid[_targetListing.listingId] = _incomingBid;
+
+      if (_targetListing.endTime - block.timestamp <= timeBuffer) {
+        _targetListing.endTime += timeBuffer;
+        listings[_targetListing.listingId] = _targetListing;
+      }
+    }
+
+    // Payout previous highest bid.
+    if (currentWinningBid.offeror != address(0) && currentOfferAmount > 0) {
+      CurrencyTransferLib.transferCurrencyWithWrapper(
+        _targetListing.currency,
+        address(this),
+        currentWinningBid.offeror,
+        currentOfferAmount,
+        _nativeTokenWrapper
+      );
+    }
+
+    // Collect incoming bid
+    CurrencyTransferLib.transferCurrencyWithWrapper(
+      _targetListing.currency,
+      _incomingBid.offeror,
+      address(this),
+      incomingOfferAmount,
+      _nativeTokenWrapper
+    );
+
+    emit NewOffer(
+      _targetListing.listingId,
+      _incomingBid.offeror,
+      _targetListing.listingType,
+      _incomingBid.quantityWanted,
+      _incomingBid.pricePerToken * _incomingBid.quantityWanted,
+      _incomingBid.currency
+    );
+  }
+
+  /// @dev Checks whether an incoming bid is the new current highest bid.
+  function isNewWinningBid(
+    uint256 _reserveAmount,
+    uint256 _currentWinningBidAmount,
+    uint256 _incomingBidAmount
+  ) internal view returns (bool isValidNewBid) {
+    if (_currentWinningBidAmount == 0) {
+      isValidNewBid = _incomingBidAmount >= _reserveAmount;
+    } else {
+      isValidNewBid = (_incomingBidAmount > _currentWinningBidAmount &&
+        ((_incomingBidAmount - _currentWinningBidAmount) * MAX_BPS) /
+          _currentWinningBidAmount >=
+        bidBufferBps);
+    }
+  }
+
+  /// @dev Closes an auction for the winning bidder; distributes auction items to the winning bidder.
+  function _closeAuctionForBidder(
+    Listing memory _targetListing,
+    Offer memory _winningBid
+  ) internal {
+    uint256 quantityToSend = _winningBid.quantityWanted;
+
+    _targetListing.endTime = block.timestamp;
+    _winningBid.quantityWanted = 0;
+
+    winningBid[_targetListing.listingId] = _winningBid;
+    listings[_targetListing.listingId] = _targetListing;
+
+    transferListingTokens(
+      address(this),
+      _winningBid.offeror,
+      quantityToSend,
+      _targetListing
+    );
+
+    emit AuctionClosed(
+      _targetListing.listingId,
+      _msgSender(),
+      false,
+      _targetListing.tokenOwner,
+      _winningBid.offeror
+    );
+  }
+
+  function handleOffer(
+    Listing memory _targetListing,
+    Offer memory _newOffer
+  ) internal {
+    require(
+      _newOffer.quantityWanted <= _targetListing.quantity &&
+        _targetListing.quantity > 0,
+      "insufficient tokens in listing."
+    );
+
+    validateERC20BalAndAllowance(
+      _newOffer.offeror,
+      _newOffer.currency,
+      _newOffer.pricePerToken * _newOffer.quantityWanted
+    );
+
+    offers[_targetListing.listingId][_newOffer.offeror] = _newOffer;
+
+    emit NewOffer(
+      _targetListing.listingId,
+      _newOffer.offeror,
+      _targetListing.listingType,
+      _newOffer.quantityWanted,
+      _newOffer.pricePerToken * _newOffer.quantityWanted,
+      _newOffer.currency
+    );
+  }
+
+  function executeSale(
+    Listing memory _targetListing,
+    address _payer,
+    address _receiver,
+    address _currency,
+    uint256 _currencyAmountToTransfer,
+    uint256 _listingTokenAmountToTransfer
+  ) internal {
+    validateDirectListingSale(
+      _targetListing,
+      _payer,
+      _listingTokenAmountToTransfer,
+      _currency,
+      _currencyAmountToTransfer
+    );
+
+    _targetListing.quantity -= _listingTokenAmountToTransfer;
+    listings[_targetListing.listingId] = _targetListing;
+
+    payout(
+      _payer,
+      _targetListing.tokenOwner,
+      _currency,
+      _currencyAmountToTransfer,
+      _targetListing
+    );
+    transferListingTokens(
+      _targetListing.tokenOwner,
+      _receiver,
+      _listingTokenAmountToTransfer,
+      _targetListing
+    );
+
+    emit NewSale(
+      _targetListing.listingId,
+      _targetListing.assetContract,
+      _targetListing.tokenOwner,
+      _receiver,
+      _listingTokenAmountToTransfer,
+      _currencyAmountToTransfer
+    );
+  }
+
+  /// @dev Pays out stakeholders in a sale.
+  function payout(
+    address _payer,
+    address _payee,
+    address _currencyToUse,
+    uint256 _totalPayoutAmount,
+    Listing memory _listing
+  ) internal {
+    uint256 platformFeeCut = (_totalPayoutAmount * platformFeeBps) / MAX_BPS;
+
+    uint256 royaltyCut;
+    address royaltyRecipient;
+
+    // Distribute royalties. See Sushiswap's https://github.com/sushiswap/shoyu/blob/master/contracts/base/BaseExchange.sol#L296
+    try
+      IERC2981(_listing.assetContract).royaltyInfo(
+        _listing.tokenId,
+        _totalPayoutAmount
+      )
+    returns (address royaltyFeeRecipient, uint256 royaltyFeeAmount) {
+      if (royaltyFeeRecipient != address(0) && royaltyFeeAmount > 0) {
+        require(
+          royaltyFeeAmount + platformFeeCut <= _totalPayoutAmount,
+          "fees exceed the price"
+        );
+        royaltyRecipient = royaltyFeeRecipient;
+        royaltyCut = royaltyFeeAmount;
+      }
+    } catch {}
+
+    // Distribute price to token owner
+    address _nativeTokenWrapper = nativeTokenWrapper;
+
+    CurrencyTransferLib.transferCurrencyWithWrapper(
+      _currencyToUse,
+      _payer,
+      platformFeeRecipient,
+      platformFeeCut,
+      _nativeTokenWrapper
+    );
+    CurrencyTransferLib.transferCurrencyWithWrapper(
+      _currencyToUse,
+      _payer,
+      royaltyRecipient,
+      royaltyCut,
+      _nativeTokenWrapper
+    );
+    CurrencyTransferLib.transferCurrencyWithWrapper(
+      _currencyToUse,
+      _payer,
+      _payee,
+      _totalPayoutAmount - (platformFeeCut + royaltyCut),
+      _nativeTokenWrapper
+    );
+  }
+
+  function validateDirectListingSale(
+    Listing memory _listing,
+    address _payer,
+    uint256 _quantityToBuy,
+    address _currency,
+    uint256 settledTotalPrice
+  ) internal {
+    require(
+      _listing.listingType == ListingType.Direct,
+      " Cannot buy from listing"
+    );
+
+    require(
+      _listing.quantity > 0 &&
+        _quantityToBuy > 0 &&
+        _quantityToBuy <= _listing.quantity,
+      "Invalid amount of tokens"
+    );
+    require(
+      block.timestamp < _listing.endTime &&
+        block.timestamp > _listing.startTime,
+      "Not within sale window"
+    );
+    if (_currency == CurrencyTransferLib.NATIVE_TOKEN) {
+      require(msg.value == settledTotalPrice, "msg.value != price");
+    } else {
+      validateERC20BalAndAllowance(_payer, _currency, settledTotalPrice);
+    }
+  }
+
+  function validateERC20BalAndAllowance(
+    address _addressToCheck,
+    address _currency,
+    uint256 _currencyAmountToCheckAgainst
+  ) internal view {
+    require(
+      IERC20(_currency).balanceOf(_addressToCheck) >=
+        _currencyAmountToCheckAgainst &&
+        IERC20(_currency).allowance(_addressToCheck, address(this)) >=
+        _currencyAmountToCheckAgainst,
+      "!BAL20"
+    );
+  }
+
   function transferListingTokens(
     address _from,
     address _to,
@@ -312,7 +715,6 @@ contract Marketplace is
       );
     }
   }
-
 
   function getTokenType(
     address _assetContract
@@ -360,30 +762,97 @@ contract Marketplace is
     require(isValid, "error validateOwnershipAndApproval");
   }
 
-  function buy(
+  function closeAuction(
     uint256 _listingId,
-    address _buyFor,
-    uint256 _quantity,
-    address _currency,
-    uint256 _totalPrice
-  ) external payable {}
+    address _closeFor
+  ) external override nonReentrant onlyExistingListing(_listingId) {
+    Listing memory targetListing = listings[_listingId];
 
-  function offer(
-    uint256 _listingId,
-    uint256 _quantityWanted,
-    address _currency,
-    uint256 _pricePerToken,
-    uint256 _expirationTimestamp
-  ) external payable {}
+    require(
+      targetListing.listingType == ListingType.Auction,
+      "not an auction."
+    );
 
-  function acceptOffer(
-    uint256 _listingId,
-    address _offeror,
-    address _currency,
-    uint256 _totalPrice
-  ) external {}
+    Offer memory targetBid = winningBid[_listingId];
 
-  function closeAuction(uint256 _listingId, address _closeFor) external {}
+    // Cancel auction if (1) auction hasn't started, or (2) auction doesn't have any bids.
+    bool toCancel = targetListing.startTime > block.timestamp ||
+      targetBid.offeror == address(0);
+
+    if (toCancel) {
+      // cancel auction listing owner check
+      _cancelAuction(targetListing);
+    } else {
+      require(
+        targetListing.endTime < block.timestamp,
+        "cannot close auction before it has ended."
+      );
+
+      // No `else if` to let auction close in 1 tx when targetListing.tokenOwner == targetBid.offeror.
+      if (_closeFor == targetListing.tokenOwner) {
+        _closeAuctionForAuctionCreator(targetListing, targetBid);
+      }
+
+      if (_closeFor == targetBid.offeror) {
+        _closeAuctionForBidder(targetListing, targetBid);
+      }
+    }
+  }
+
+  function _closeAuctionForAuctionCreator(
+    Listing memory _targetListing,
+    Offer memory _winningBid
+  ) internal {
+    uint256 payoutAmount = _winningBid.pricePerToken * _targetListing.quantity;
+
+    _targetListing.quantity = 0;
+    _targetListing.endTime = block.timestamp;
+    listings[_targetListing.listingId] = _targetListing;
+
+    _winningBid.pricePerToken = 0;
+    winningBid[_targetListing.listingId] = _winningBid;
+
+    payout(
+      address(this),
+      _targetListing.tokenOwner,
+      _targetListing.currency,
+      payoutAmount,
+      _targetListing
+    );
+
+    emit AuctionClosed(
+      _targetListing.listingId,
+      _msgSender(),
+      false,
+      _targetListing.tokenOwner,
+      _winningBid.offeror
+    );
+  }
+
+  /// @dev Cancels an auction.
+  function _cancelAuction(Listing memory _targetListing) internal {
+    require(
+      listings[_targetListing.listingId].tokenOwner == _msgSender(),
+      "caller is not the listing creator."
+    );
+
+    delete listings[_targetListing.listingId];
+
+    transferListingTokens(
+      address(this),
+      _targetListing.tokenOwner,
+      _targetListing.quantity,
+      _targetListing
+    );
+
+    emit AuctionClosed(
+      _targetListing.listingId,
+      _msgSender(),
+      true,
+      _targetListing.tokenOwner,
+      address(0)
+    );
+  }
 
   function _msgSender() internal view returns (address) {
     return msg.sender;
@@ -396,16 +865,46 @@ contract Marketplace is
     returns (address, uint16)
   {}
 
-  function setPlatformFeeInfo(
-    address _platfromFeeRecipient,
-    uint256 _platformFeeBps
-  ) external override {}
-
   function supportsInterface(
     bytes4 interfaceId
   ) public view virtual override(IERC165) returns (bool) {
     return
       interfaceId == type(IERC1155Receiver).interfaceId ||
       interfaceId == type(IERC721Receiver).interfaceId;
+  }
+
+  function getPlatformFeeInfo() external view returns (address, uint16) {
+    return (platformFeeRecipient, uint16(platformFeeBps));
+  }
+
+  function setPlatformFeeInfo(
+    address _platformFeeRecipient,
+    uint256 _platformFeeBps
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    require(_platformFeeBps <= MAX_BPS, "bps <= 10000.");
+
+    platformFeeBps = uint64(_platformFeeBps);
+    platformFeeRecipient = _platformFeeRecipient;
+
+    emit PlatformFeeUpdated(_platformFeeRecipient, _platformFeeBps);
+  }
+
+  /// @dev Lets a contract admin set auction buffers.
+  function setAuctionBuffers(
+    uint256 _timeBuffer,
+    uint256 _bidBufferBps
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    require(_bidBufferBps < MAX_BPS, "invalid BPS.");
+
+    timeBuffer = uint64(_timeBuffer);
+    bidBufferBps = uint64(_bidBufferBps);
+
+    emit AuctionBuffersUpdated(_timeBuffer, _bidBufferBps);
+  }
+
+  function setContractURI(
+    string calldata _uri
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    contractURI = _uri;
   }
 }
