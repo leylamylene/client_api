@@ -1,1 +1,1 @@
-marketplace front end app
+NFT marketplace (angular , solidity)
