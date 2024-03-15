@@ -48,7 +48,7 @@ export class AppTopBarComponent implements OnInit {
 
   openConnect() {
     this.dialog.open(LoginComponent, {
-      width: '380px',
+      width: '400px',
     });
   }
 }
