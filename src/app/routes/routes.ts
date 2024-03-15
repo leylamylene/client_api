@@ -8,8 +8,8 @@ import { CollectionComponent } from '../pages/collection/deploy/collection/colle
 const routeConfig: Routes = [
   {
     path: '',
-    component: AppLayoutComponent,
-    title: 'Layout page',
+    component: HomeComponent,
+    title: 'Home page',
   },
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
 

@@ -1,3 +1,5 @@
+
+
 .flex-container {
   background-color: var(--dark-background);
   display: flex;
@@ -165,13 +167,13 @@
 }
 
 .element {
-  height: 50px;
+  height: 42px;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-  
+
 .p-codeverif {
   padding: 1rem 0.75rem !important;
   -moz-appearance: textfield;
@@ -185,11 +187,22 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .img-logo {
-  height: 50px;
-  width: 50px;
+  height: 30px;
+  width: 30px;
   border-radius: 25px;
 }
 
+.arrow-back{
+  height: 18px;
+  width: 18px;
+  border-radius: 25px; 
+}
+
+.img-close {
+  height: 20px;
+  width: 20px;
+  border-radius: 25px;
+}
 .wallet-name {
   margin-left: 12px;
 }

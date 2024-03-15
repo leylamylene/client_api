@@ -25,6 +25,7 @@ import { ErrorInterceptor } from './app/interceptors/errorInterceptor';
 import { provideStore } from '@ngrx/store';
 import { userReducers } from './app/store/user-store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 bootstrapApplication(AppComponent, {
   providers: [
     provideProtractorTestingSupport(),
@@ -55,5 +56,6 @@ bootstrapApplication(AppComponent, {
       trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
     }),
+    provideAnimationsAsync(),
   ],
 });

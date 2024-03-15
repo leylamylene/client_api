@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 
 import { ButtonModule } from 'primeng/button';
@@ -31,7 +31,7 @@ import { EmailLoginService } from '../../services/auth/email/email-login.service
     ButtonModule,
     CheckboxModule,
     InputTextModule,
-    
+
     PasswordModule,
     RouterLink,
     InputGroupModule,
@@ -52,7 +52,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private emailService: EmailLoginService,
     public layoutService: LayoutService,
     private router: Router,
-    private metamaskLoginSrv: MetamaskLoginService
+    private metamaskLoginSrv: MetamaskLoginService,
+    public dialogRef: MatDialogRef<LoginComponent>
   ) {}
 
   ngOnInit(): void {
@@ -96,7 +97,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.loginForm.valid) {
+    if (!this.loginForm.controls['email'].pristine && this.loginForm.valid) {
       this.callLogin();
     } else {
     }
@@ -111,7 +112,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   async metamaskConnect() {
-    this.metamaskLoginSrv.connectMetamask();
+    this.metamaskLoginSrv.connectMetamask(this.dialogRef);
   }
   onKeyup(i: number, event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
@@ -128,5 +129,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.login$) this.login$.unsubscribe();
     if (this.auth$) this.auth$.unsubscribe();
+  }
+
+  closeConnect() {
+    this.dialogRef.close('');
   }
 }

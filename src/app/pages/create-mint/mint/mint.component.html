@@ -1,5 +1,34 @@
-<div class="grid-container bg-stone-800">
-  <!-- Left Column: Drag & Drop File -->
+<div>
+  <!-- stepper -->
+</div>
+
+<div *ngIf="stepOne" class="flex justify-center align-center py-16">
+  <div class="flex flex-row bg-stone-800 w-1/2 gap-x-10">
+    <div class="flex flex-col flex-1">
+      <div
+        class="rounded bg-stone-700 p-6 h-40 hover:bg-stone-500"
+        (click)="dropCollection()"
+      >
+        <p class="text-stone-100 mb-2">Drop a collection</p>
+
+        <p class="text-stone-100">
+          Launch your NFT collection for others to mint.
+        </p>
+      </div>
+    </div>
+    <div class="flex flex-col flex-1">
+      <div class="rounded bg-stone-700 p-6 h-40 hover:bg-stone-500">
+        <p class="text-stone-100 mb-2">Mint an NFT</p>
+
+        <p class="text-stone-100">
+          Create a collection and mint NFTs directly to your wallet.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="stepTwo" class="grid-container bg-stone-800">
   <div class="left-column">
     <div class="file-drop-zone">
       <div
@@ -31,7 +60,6 @@
     </div>
   </div>
 
-  <!-- Right Column: Inputs -->
   <div class="right-column">
     <form>
       <div

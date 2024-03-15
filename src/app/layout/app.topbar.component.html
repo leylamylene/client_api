@@ -1,9 +1,9 @@
-<div class="flex justify-between items-center px-6 py-3 bg-stone-800">
+<div class="flex justify-between items-center px-6 py-3 bg-stone-50">
   <div class="md:flex hidden">
-    <button class="mx-2 bg-none text-stone-100 rounded px-2 py-1">Drops</button>
-    <button class="mx-2 bg-none text-stone-100 rounded px-2 py-1">Stats</button>
+    <button class="mx-2 bg-none text-stone-600 rounded px-2 py-1">Drops</button>
+    <button class="mx-2 bg-none text-stone-600 rounded px-2 py-1">Stats</button>
     <button
-      class="mx-2 bg-none text-stone-100 rounded px-2 py-1"
+      class="mx-2 bg-none text-stone-600 rounded px-2 py-1"
       [routerLink]="'/mint'"
     >
       Create
@@ -25,7 +25,7 @@
   </div>
   <div class="flex md:mx-6">
     <input
-      class="w-96 rounded p-2 bg-stone-700 hover:bg-stone-600"
+      class="w-96 rounded p-2 bg-stone-100 hover:bg-stone-200"
       type="text"
       placeholder="Search..."
     />
@@ -46,9 +46,8 @@
       />
     </svg>
     <button
-      *ngIf="!isLoggedIn()"
-      class="ml-2 bg-none text-stone-100 rounded px-2 py-1"
-      [routerLink]="'/auth/login'"
+      class="ml-2 bg-none text-stone-600 rounded px-2 py-1"
+      (click)="openConnect()"
     >
       login
     </button>

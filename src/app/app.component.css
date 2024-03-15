@@ -6,6 +6,10 @@
   background-color: var(--dark-background);
 }
 
+.layout-wrapper {
+  background-color: var(--dark-background);
+
+}
 .spinner-overlay {
   position: fixed;
   top: 0;

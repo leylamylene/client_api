@@ -15,6 +15,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { MetamaskLoginService } from '../services/auth/metamask/meatamask-login.service';
 import { AuthService } from '../services/auth/auth.service';
 import { of } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from '../pages/login/login.component';
 
 @Component({
   selector: 'app-topbar',
@@ -36,10 +38,17 @@ export class AppTopBarComponent implements OnInit {
 
   constructor(
     public layoutService: LayoutService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) {
     this.isLoggedIn = toSignal(of(this.authService.isLoggedIn()));
   }
 
   ngOnInit() {}
+
+  openConnect() {
+    this.dialog.open(LoginComponent, {
+      width: '380px',
+    });
+  }
 }

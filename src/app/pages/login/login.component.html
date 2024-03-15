@@ -1,110 +1,225 @@
-<div class="flex justify-center items-center h-screen bg-stone-500">
-  <div class="flex flex-col w-auto bg-stone-800 rounded-3xl">
-    <div
-      style="
-        border-radius: 56px;
-        padding: 0.3rem;
-        background: linear-gradient(
-          180deg,
-          var(--primary-color) 10%,
-          rgba(33, 150, 243, 0) 30%
-        );
-      "
-    >
-      <div
-        class="w-full surface-card py-8 px-5 sm:px-8"
-        style="border-radius: 53px"
-      >
-        <div class="text-center mb-5">
-          <div class="text-900 text-3xl font-medium mb-3 text-stone-200">
-            Welcome
-          </div>
-          <span class="text-600 font-medium text-stone-400"
-            >Connect to Neffty</span
-          >
-        </div>
-        <form
-          *ngIf="!pdLessPart_1"
-          [formGroup]="loginForm"
-          (ngSubmit)="onSubmit()"
+<!-- <div class="flex flex-col self-center w-full bg-stone-200">
+  <div
+    (click)="closeConnect()"
+    class="bg-none text-black p-2 absolute right-0 mr-2 mt-2 hover:bg-purple-400 hover:rounded-full"
+  >
+    <img src="../../assets/close.png" class="img-close" />
+  </div>
+  <div
+    class="w-full surface-card py-8 px-5 sm:px-8"
+    style="border-radius: 53px"
+  >
+    <div class="text-center my-5">
+      <div class="text-900 text-3xl font-medium mb-3 text-stone-600">
+        Welcome
+      </div>
+      <span class="text-600 font-medium text-stone-600">Connect to Neffty</span>
+    </div>
+    <form *ngIf="!pdLessPart_1" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="flex flex-row">
+        <input
+          type="text"
+          class="w-96 rounded-tl-lg rounded-bl-lg p-3 bg-stone-300 hover:bg-stone-400 outline-none"
+          formControlName="email"
+          placeholder="Email"
+          style="padding-right: 1rem"
+        />
+        <button
+          class="rounded-tr-lg rounded-br-lg p-3 bg-purple-400 hover:bg-purple-300"
+          [disabled]="
+            (!loginForm.controls['email'].pristine &&
+              loginForm.controls['email'].hasError('email')) ||
+            loginForm.controls['email'].pristine
+          "
+          (onClick)="onSubmit()"
         >
-          <p-inputGroup>
-            <input
-              type="text"
-              class="
-              w-96 rounded-lg p-3 bg-stone-700 hover:bg-stone-600"
-              formControlName="email"
-              pInputText
-              placeholder="Email"
-              style="padding-right: 1rem"
-            />
-            <button
-              icon="pi pi-arrow-right"
-              [disabled]="
-                (!loginForm.controls['email'].pristine &&
-                  loginForm.controls['email'].hasError('email')) ||
-                loginForm.controls['email'].pristine
-              "
-              (onClick)="onSubmit()"
-            ></button>
-          </p-inputGroup>
-          <div class="text custom-text">
-            {{ loginForm.controls["email"].hasError("email") }}
-          </div>
-          <div
-            class="flex align-items-center justify-content-between mb-5 gap-5"
-          ></div>
-          <div class="container">
-            <div class="item" (click)="metamaskConnect()">
-              <div class="element spaced">
-                <img src="../../assets/metamask.png" class="img-logo" />
-                <p class="wallet-name text-stone-400">Metamask</p>
-              </div>
-              <div class="element text-stone-400"><p>Popular</p></div>
-            </div>
-            <div class="item">
-              <div class="element">
-                <img src="../../assets/coinbase.png" class="img-logo" />
-                <p class="wallet-name text-stone-400">Coinbase</p>
-              </div>
+          Login
+        </button>
+      </div>
 
-              <div class="element"></div>
-            </div>
-            <div class="item">
-              <div class="element text-stone-400">Wallet Connect</div>
-              <div class="element"></div>
-            </div>
+      <div class="text custom-text"></div>
+
+      <div class="container">
+        <div class="item" (click)="metamaskConnect()">
+          <div class="element spaced">
+            <img src="../../assets/metamask.png" class="img-logo" />
+            <p class="wallet-name text-stone-600">Metamask</p>
           </div>
-        </form>
-        <form
-          *ngIf="pdLessPart_1"
-          [formGroup]="codeVerifForm"
-          (ngSubmit)="onSubmit()"
+          <div class="element text-stone-600">
+            <p>Popular</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="element">
+            <img src="../../assets/coinbase.png" class="img-logo" />
+            <p class="wallet-name text-stone-600">Coinbase</p>
+          </div>
+
+          <div class="element"></div>
+        </div>
+        <div class="item">
+          <div class="element text-stone-600">Wallet Connect</div>
+          <div class="element"></div>
+        </div>
+      </div>
+    </form>
+    <form
+      *ngIf="pdLessPart_1"
+      [formGroup]="codeVerifForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="flex flex-row justify-between" [formGroup]="codeVerifForm">
+        <div
+          *ngFor="let input of codeVerifForm.controls | keyvalue; let i = index"
         >
-          <div
-            class="flex flex-row justify-between"
-            [formGroup]="codeVerifForm"
-          >
-            <div
-              *ngFor="
-                let input of codeVerifForm.controls | keyvalue;
-                let i = index
-              "
-            >
-              <input
-                [formControlName]="input.key"
-                type="number"
-                min="0"
-                max="9"
-                (keyup)="onKeyup(i, $event)"
-                [autofocus]="i === 0"
-                class="p-3 bg-stone-700 hover:bg-stone-600 rounded mx-4"
-                required
-              />
-            </div>
-          </div>
-        </form>
+          <input
+            [formControlName]="input.key"
+            type="number"
+            min="0"
+            max="9"
+            (keyup)="onKeyup(i, $event)"
+            [autofocus]="i === 0"
+            class="p-3 bg-stone-700 hover:bg-stone-600 rounded mx-1"
+            required
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div> -->
+
+<div class="flex flex-col justify-center bg-white px-8 py-4">
+  <div class="absolute left-0 top-0 cursor-pointer" (click)="closeConnect()">
+    <img src="../../assets/line-back-2.svg" class="arrow-back mt-2 ml-2" />
+  </div>
+  <div class="flex flex-row self-center justify-center align-center mt-2">
+    <p class="font-bold text-2xl text-stone-700">Select Your Wallet</p>
+  </div>
+  <div class="flex flex-row self-center justify-center align-center pt-2 pb-5">
+    <p class="text-lg text-center text-stone-600">
+      By connecting your wallet , you agree to our
+      <span class="text-stone-950 underline">Terms of Service</span> and our
+      <span class="text-stone-950 underline">Privacy Policy</span>
+    </p>
+  </div>
+  <div></div>
+  <div class="flex flex-col">
+    <div
+      class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-lg my-1 hover:border-violet-300 hover:bg-violet-100"
+      (click)="metamaskConnect()"
+    >
+      <div><img src="../../assets/metamask.png" class="img-logo" /></div>
+      <div class="self-center"><p class="text-stone-700 ml-3">Metamask</p></div>
+    </div>
+    <div
+      class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-lg my-1 hover:border-violet-300 hover:bg-violet-100"
+    >
+      <div><img src="../../assets/coinbase.png" class="img-logo" /></div>
+      <div class="self-center"><p class="text-stone-700 ml-3">Coinbase</p></div>
+    </div>
+
+    <div
+      class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-lg my-1 hover:border-violet-300 hover:bg-violet-100"
+    >
+      <div><img src="../../assets/trust.png" class="img-logo" /></div>
+      <div class="self-center">
+        <p class="text-stone-700 ml-3">Trust Wallet</p>
       </div>
     </div>
+
+    <div
+      class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-lg my-1 hover:border-violet-300 hover:bg-violet-100"
+    >
+      <div><img src="../../assets/math-wallet.png" class="img-logo" /></div>
+      <div class="self-center">
+        <p class="text-stone-700 ml-3">Math Wallet</p>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-lg my-1 hover:border-violet-300 hover:bg-violet-100"
+    >
+      <div><img src="../../assets/phantom.png" class="img-logo" /></div>
+      <div class="self-center"><p class="text-stone-700 ml-3">Phantom</p></div>
+    </div>
+  </div>
+
+  <div class="flex flex-row self-center justify-center align-center pt-2 pb-5">
+    <p class="text-lg text-center text-stone-600">
+      Or connect your address email
+    </p>
+  </div>
+
+  <div class="flex self-center">
+    <form *ngIf="!pdLessPart_1" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="flex flex-row mb-2">
+        <input
+          type="text"
+          class="w-80 rounded-tl-lg rounded-bl-lg p-3 mt-1 border-2 border-solid border-violet-200 hover:border-violet-300 outline-none"
+          formControlName="email"
+          placeholder="Email"
+          style="padding-right: 1rem"
+        />
+        <button
+          class="rounded-tr-lg rounded-br-lg p-3 mt-1 bg-purple-300 hover:bg-purple-400"
+          [ngClass]="{
+            'bg-purple-300':
+              (!loginForm.controls['email'].pristine &&
+                loginForm.controls['email'].hasError('email')) ||
+              loginForm.controls['email'].pristine,
+            'bg-purple-400':
+              loginForm.controls['email'].dirty ||
+              loginForm.controls['email'].hasError('email')
+          }"
+          [disabled]="
+            (!loginForm.controls['email'].pristine &&
+              loginForm.controls['email'].hasError('email')) ||
+            loginForm.controls['email'].pristine
+          "
+          (onClick)="onSubmit()"
+        >
+          <img src="../../assets/arrow-right.svg" />
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!--  -->
+  <div
+    *ngIf="pdLessPart_1"
+    class="flex flex-col justify-center self-center py-5"
+  >
+    <div
+      class="flex flex-row self-center justify-center align-center w-80 pt-2 pb-5"
+    >
+      <p class="text-lg text-center text-stone-600">
+        Please enter the 6 digit code sent to your email
+      </p>
+    </div>
+
+    <form [formGroup]="codeVerifForm" (ngSubmit)="onSubmit()">
+      <div class="flex flex-row justify-between self-center">
+        <div
+          *ngFor="let input of codeVerifForm.controls | keyvalue; let i = index"
+        >
+          <input
+            [formControlName]="input.key"
+            type="number"
+            min="0"
+            max="9"
+            (keyup)="onKeyup(i, $event)"
+            [autofocus]="i === 0"
+            class="p-2 py-3 border-2 outline-none border-violet-200 focus:bg-violet-200 rounded mx-1 text-center font-bold text-violet-700"
+            required
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="flex flex-row self-center justify-center align-center pt-2 pb-5">
+    <p class="text-lg text-center text-stone-600">Didn't receive a code ?</p>
+
+    <p>Send again</p>
   </div>
 </div>

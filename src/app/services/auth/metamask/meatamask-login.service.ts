@@ -17,26 +17,27 @@ export class MetamaskLoginService {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private ethersSrv: EthersService,
-    private router : Router
+    private router: Router
   ) {}
 
   localStorage = this.document.defaultView?.localStorage;
 
-  async connectMetamask() {
+  async connectMetamask(dialogRef: any) {
     const accounts = await window.ethereum.request({
       method: 'eth_requestAccounts',
     });
     this.account = accounts[0];
     const verification = this.ethersSrv.signMessage(this.account, 'login');
     verification.then((value) =>
-      value.subscribe((response) => this.handleVerify(response))
+      value.subscribe((response) => this.handleVerify(response, dialogRef))
     );
   }
 
-  handleVerify(response: any, operation?: string) {
+  handleVerify(response: any, dialogRef?: any) {
     this.loggedIn.next(response.isValid);
     this.localStorage?.setItem('user', JSON.stringify(response.data));
-    this.router.navigate(['home'])
+    this.router.navigate(['home']);
+    dialogRef.close('');
   }
 
   setWallet(connected: boolean) {

@@ -15,8 +15,10 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 })
 export class MintComponent {
   filePreview: string | ArrayBuffer | null = null;
-  isImage = false;
-  isVideo = false;
+  isImage: boolean = false;
+  isVideo: boolean = false;
+  stepOne: boolean = true;
+  stepTwo: boolean = false;
 
   constructor(private router: Router) {}
   onFileSelected(event: Event): void {
@@ -69,5 +71,10 @@ export class MintComponent {
 
   addCollection() {
     this.router.navigate(['/collection/deploy']);
+  }
+
+  dropCollection() {
+    this.stepOne = false;
+    this.stepTwo = true;
   }
 }
