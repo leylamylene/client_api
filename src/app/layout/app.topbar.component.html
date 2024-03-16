@@ -1,55 +1,59 @@
-<div class="flex justify-between items-center px-6 py-3 bg-stone-50">
-  <div class="md:flex hidden">
-    <button class="mx-2 bg-none text-stone-600 rounded px-2 py-1">Drops</button>
-    <button class="mx-2 bg-none text-stone-600 rounded px-2 py-1">Stats</button>
-    <button
-      class="mx-2 bg-none text-stone-600 rounded px-2 py-1"
-      [routerLink]="'/mint'"
-    >
-      Create
-    </button>
-  </div>
-  <div class="md:hidden">
-    <button
-      class="flex items-center px-3 py-2 border rounded text-white border-white"
-    >
-      <svg
-        class="fill-current h-3 w-3"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
+<div class="flex justify-between items-center px-6 py-3 bg-white">
+  <div class="flex ">
+    <div class="hide md:flex flex-row justify-between">
+      <div>
+        <img src="../../assets/logo.png" />
+      </div>
+      <div class="self-center ml-2 font-bold text-2xl text-violet-600">
+        <p>Neffty</p>
+      </div>
+    </div>
+
+    <div class=" burger self-center mt-1 ml-4
+    ">
+      <button
+        class="mx-1 bg-none text-violet-800 font-medium medium rounded px-2 py-1"
       >
-        <title>Menu</title>
-        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-      </svg>
-    </button>
+        Drops
+      </button>
+      <button
+        class="mx-1 bg-none text-violet-800 font-medium rounded px-2 py-1"
+      >
+        Stats
+      </button>
+      <button
+        class="mx-1 bg-none text-violet-800 font-medium rounded px-2 py-1"
+        [routerLink]="'/mint'"
+      >
+        Create
+      </button>
+    </div>
+ 
   </div>
-  <div class="flex md:mx-6">
+  <div class="hide md:flex mx-6 ">
     <input
-      class="w-96 rounded p-2 bg-stone-100 hover:bg-stone-200"
+      class=" w-96 rounded-lg p-3 bg-stone-100 hover:bg-violet-100 outline-none"
       type="text"
       placeholder="Search..."
     />
   </div>
   <div class="flex items-center">
-    <svg
-      class="h-6 w-6 fill-current text-white"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M4 4v16h16V4H4zm8 12a4 4 0 100-8 4 4 0 000 8z"
-      />
-    </svg>
     <button
-      class="ml-2 bg-none text-stone-600 rounded px-2 py-1"
+      class="ml-2 bg-violet-400 hover:bg-violet-500 rounded-lg px-3 py-3 text-stone-50 text-sm font-medium"
       (click)="openConnect()"
     >
-      login
+      <p>Connect Wallet</p>
+    </button>
+    <button
+      class="ml-2 bg-stone-200 rounded-lg px-3 py-3 text-stone-50 text-sm font-medium"
+    >
+      <img src="../../assets/profile.svg" class="icone" />
+    </button>
+
+    <button
+      class="ml-2 bg-stone-200 rounded-lg px-3 py-3 text-stone-50 text-sm font-medium"
+    >
+      <img src="../../assets/cart.svg" class="icone" />
     </button>
   </div>
 </div>

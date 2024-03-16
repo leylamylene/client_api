@@ -1,0 +1,17 @@
+.icone {
+  width: 18px;
+  height: 18px;
+}
+
+@media screen and (max-width: 920px) {
+  .hide {
+    display: none;
+  }
+}
+
+
+@media screen and (max-width: 300px) {
+    .burger {
+      display: none;
+    }
+  }
