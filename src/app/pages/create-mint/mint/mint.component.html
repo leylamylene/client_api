@@ -1,123 +1,127 @@
-<div>
-  <!-- stepper -->
+<div class="flex flex-col justify-center items-center text-white">
+  <div class="flex w-2/3 self-center">
+    <img src="../../../../assets/star-close.svg" class="w-20 h-20" />
+  </div>
 </div>
 
-<div *ngIf="stepOne" class="flex justify-center align-center py-16">
-  <div class="flex flex-row bg-stone-800 w-1/2 gap-x-10">
-    <div class="flex flex-col flex-1">
+<div class="flex justify-center items-end max-w-screen-md md:mx-auto mx-10 mb-3">
+  <div class="w-full">
+    <h6 class="text-base font-bold text-stone-700 mb-2 mr-4">Deploy a contract</h6>
+    <div class="flex items-center w-full">
       <div
-        class="rounded bg-stone-700 p-6 h-40 hover:bg-stone-500"
+        class="w-8 h-8 shrink-0 mx-[-1px] border-2 border-violet-500 p-1.5 flex items-center justify-center rounded-full"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-full fill-violet-500"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+            data-original="#000000"
+          />
+        </svg>
+      </div>
+      <div class="w-full h-1 bg-violet-500"></div>
+    </div>
+  </div>
+  <div class="w-full">
+    <h6 class="text-base font-bold text-stone-700 mb-2 mr-4">Choose a blockchain</h6>
+    <div class="flex items-center w-full">
+      <div
+        class="w-8 h-8 shrink-0 mx-[-1px] border-2 border-violet-500 p-1.5 flex items-center justify-center rounded-full"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-full fill-violet-500"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+            data-original="#000000"
+          />
+        </svg>
+      </div>
+      <div class="w-full h-1 bg-violet-500"></div>
+    </div>
+  </div>
+  <div class="w-full">
+    <h6 class="text-base font-bold text-stone-400 mb-2 mr-4">Step 3</h6>
+    <div class="flex items-center w-full">
+      <div
+        class="w-8 h-8 shrink-0 mx-[-1px] border-2 border-violet-500 p-1.5 flex items-center justify-center rounded-full"
+      >
+        <span class="w-3 h-3 bg-violet-500 rounded-full"></span>
+      </div>
+      <div class="w-full h-1 bg-gray-300"></div>
+    </div>
+  </div>
+  <div>
+    <h6 class="text-base font-bold text-stone-400 w-max mb-2">Step 4</h6>
+    <div class="flex items-center">
+      <div
+        class="w-8 h-8 shrink-0 mx-[-1px] border-2 p-1.5 flex items-center justify-center rounded-full"
+      >
+        <span class="text-base text-gray-400 font-bold">4</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="stepOne" class="flex justify-center items-center self-center py-10">
+  <div
+    class="flex md:flex-row flex-col justify-center items-center w-2/3 gap-x-10 gap-y-6"
+  >
+    <div class="flex flex-col choice1">
+      <div
+        class="flex flex-row bg-white shadow-violet-100 shadow-lg transition-transform duration-300 ease-in-out hover:transform hover:-translate-y-2 hover:shadow-violet-200 rounded-md p-6 h-32 hover:border-violet-200"
         (click)="dropCollection()"
       >
-        <p class="text-stone-100 mb-2">Drop a collection</p>
+        <div>
+          <p class="text-stone-700 font-bold mb-2">Drop a collection</p>
 
-        <p class="text-stone-100">
-          Launch your NFT collection for others to mint.
-        </p>
-      </div>
-    </div>
-    <div class="flex flex-col flex-1">
-      <div class="rounded bg-stone-700 p-6 h-40 hover:bg-stone-500">
-        <p class="text-stone-100 mb-2">Mint an NFT</p>
+          <p class="text-stone-700">
+            Launch your NFT collection for others to mint
+          </p>
+        </div>
 
-        <p class="text-stone-100">
-          Create a collection and mint NFTs directly to your wallet.
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div *ngIf="stepTwo" class="grid-container bg-stone-800">
-  <div class="left-column">
-    <div class="file-drop-zone">
-      <div
-        class="drag-drop-area bg-stone-700 hover:bg-stone-600 rounded-lg"
-        (drop)="onFileDropped($event)"
-        (dragover)="onDragOver($event)"
-      >
-        <img *ngIf="isImage" [src]="filePreview" alt="File Preview" />
-        <button
-          *ngIf="isImage"
-          type="button"
-          icon="pi pi-times"
-          class="p-button-rounded p-button-danger delete"
-          (click)="deleteFile()"
-        ></button>
-
-        <label class="custom-file-upload">
-          <input
-            type="file"
-            id="fileInput"
-            (change)="onFileSelected($event)"
-            accept="image/*, video/*"
+        <div class="self-center">
+          <img
+            src="../../../../assets/Arrow-1.svg"
+            class="w-4 h-4 mt-3 ml-5 fill-violet-400"
           />
-          Browse files
-        </label>
-        <!-- Add styling for drag-and-drop area -->
-        <!-- Display selected file name -->
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col choice1">
+      <div
+        class="flex flex-row bg-white shadow-violet-100 shadow-lg transition-transform duration-300 ease-in-out hover:transform hover:-translate-y-2 hover:shadow-violet-200 rounded-md p-6 h-32 hover:border-violet-200"
+        (click)="mintNFT()"
+      >
+        <div>
+          <p class="text-stone-700 font-bold mb-2">Mint an NFT</p>
+
+          <p class="text-stone-700">
+            Create a collection and mint NFTs directly to your wallet.
+          </p>
+        </div>
+        <div class="self-center">
+          <img
+            src="../../../../assets/Arrow-1.svg"
+            class="w-4 h-4 mt-3 ml-5 fill-violet-400"
+          />
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="right-column">
-    <form>
-      <div
-        class="add-collection bg-stone-700 hover:bg-stone-600"
-        (click)="addCollection()"
-      >
-        <div class="add-button">
-          <p>+</p>
-        </div>
-        <div
-          class="flex column justify-content-center align-items-center align-self-center"
-        >
-          <p class="text-stone-300">Create a new collection</p>
-        </div>
-      </div>
-      <input
-        type="text"
-        class="w-full rounded-lg p-3 bg-stone-700 hover:bg-stone-600"
-        formControlName="email"
-        pInputText
-        placeholder="Name your NFT"
-        style="padding-right: 1rem; margin-bottom: 30px"
-      />
-      <input
-        type="text"
-        class="w-full rounded-lg p-3 bg-stone-700 hover:bg-stone-600"
-        formControlName="email"
-        pInputText
-        placeholder="Supply"
-        style="padding-right: 1rem; margin-bottom: 30px"
-      />
-      <input
-        type="text"
-        class="w-full rounded-lg p-3 bg-stone-700 hover:bg-stone-600"
-        formControlName="email"
-        pInputText
-        placeholder="External Link"
-        style="padding-right: 1rem; margin-bottom: 30px"
-      />
-      <textarea
-        rows="5"
-        cols="30"
-        class="w-full rounded-lg p-3 bg-stone-700 hover:bg-stone-600"
-        placeholder="Enter a description"
-        pInputTextarea
-      ></textarea>
-
-      <!-- Add more input fields as needed -->
-    </form>
-    <!-- Create Button -->
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Create"
-      class="p-button-raised"
-      style="margin-top: 20px"
-      (click)="createForm()"
-    ></button>
+<div *ngIf="stepTwo">
+  <div *ngIf="collectionType == 'drop'; else mint">
+    <drop721></drop721>
   </div>
 </div>
+
+<ng-template #mint>
+  <app-deploy1155></app-deploy1155>
+</ng-template>

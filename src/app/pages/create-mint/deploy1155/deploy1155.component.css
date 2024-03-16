@@ -75,27 +75,12 @@ input[type="file"] {
 .add-collection {
   height: 80px;
   border-radius: 5px;
-  /* background-color: rgba(90, 101, 111, 0.116); */
   padding: 12px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
   text-align: center;
   cursor: pointer;
   margin-bottom: 30px;
 }
-.add-collection:hover {
-  /* background-color: rgba(90, 101, 111, 0.378); */
-}
 
-.add-button {
-  height: 60px;
-  width: 60px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(90, 101, 111, 0.378);
-  margin-right: 20px;
-}
+
