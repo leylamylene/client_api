@@ -3,7 +3,7 @@ import { AppLayoutComponent } from '../layout/app.layout.component';
 import { HomeComponent } from '../pages/home/home.component';
 import { authGuard } from '../guards/auth.guard';
 import { MintComponent } from '../pages/create-mint/mint/mint.component';
-import { CollectionComponent } from '../pages/collection/deploy/collection/collection.component';
+import { CollectionComponent } from '../pages/collection/deploy/collection/deploy721.component';
 
 const routeConfig: Routes = [
   {

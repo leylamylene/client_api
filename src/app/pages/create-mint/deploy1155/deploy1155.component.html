@@ -1,0 +1,88 @@
+
+<div  class="flex justify-center items-center self-center py-10">
+    <div
+      class="flex md:flex-row flex-col justify-center md:items-start items-center w-2/3 gap-x-10 gap-y-6 b"
+    >
+      <div class="flex flex-col choice1 bg-white">
+        <div
+          class="flex flex-row hover:shadow-stone-100 rounded-md p-6 h-72 border-2 border-violet-200 hover:border-violet-300"
+          (drop)="onFileDropped($event)"
+          (dragover)="onDragOver($event)"
+        >
+          <img *ngIf="isImage" [src]="filePreview" alt="File Preview" />
+          <button
+            *ngIf="isImage"
+            type="button"
+            icon="pi pi-times"
+            class="p-button-rounded p-button-danger delete"
+            (click)="deleteFile()"
+          ></button>
+  
+          <label class="custom-file-upload">
+            <input
+            class="text-center"
+              type="file"
+              id="fileInput"
+              (change)="onFileSelected($event)"
+              accept="image/*, video/*"
+            />
+            Browse files
+          </label>
+        </div>
+      </div>
+      <div class="flex flex-col choice1">
+        <form>
+          <div
+            class="add-collection items-center  bg-white border-2 border-violet-200 hover:border-violet-300"
+            (click)="addCollection()"
+          >
+            <div class=" flex items-center justify-center rounded-md h-12 w-12 mr-4 bg-violet-200">
+              <p>+</p>
+            </div>
+            <div
+              class="flex column justify-content-center align-items-center align-self-center"
+            >
+              <p class="text-stone-700">Create a new collection</p>
+            </div>
+          </div>
+          <label >Collection name :</label>
+          <input
+            type="text"
+            class="w-full rounded-md p-3 bg-white border-2 border-violet-200 hover:border-violet-300 my-2"
+            formControlName="email"
+            pInputText
+            placeholder="Name your NFT"
+           
+          />
+          <label >Supply :</label>
+
+          <input
+            type="text"
+            class="w-full rounded-md p-3 bg-white border-2 border-violet-200 hover:border-violet-300 my-2"
+            formControlName="email"
+            pInputText
+            placeholder="Supply"
+           
+          />
+          <label >External Link :</label>
+
+          <input
+            type="text"
+            class="w-full rounded-md p-3 bg-white border-2 border-violet-200 hover:border-violet-300 my-2"
+            formControlName="email"
+            pInputText
+            placeholder="External Link"
+          />
+          <label >Enter a description :</label>
+
+          <textarea
+            rows="5"
+            cols="30"
+            class="w-full rounded-md p-3  bg-white border-2 border-violet-200 hover:border-violet-300 my-2"
+            placeholder="Enter a description"
+            pInputTextarea
+          ></textarea>
+        </form>
+      </div>
+    </div>
+</div>
