@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+
 
 @Component({
   selector: 'app-deploy1155',
   standalone: true,
-  imports: [CommonModule, ButtonModule, InputTextModule, InputTextareaModule],
+  imports: [CommonModule],
   templateUrl: './deploy1155.component.html',
   styleUrl: './deploy1155.component.css'
 })
