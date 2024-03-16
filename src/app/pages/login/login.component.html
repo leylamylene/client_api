@@ -1,15 +1,15 @@
 <div class="flex flex-col justify-center bg-white px-8 py-4">
   <div *ngIf="!pdLessPart_1">
-    <div class="absolute left-0 top-0 cursor-pointer" (click)="closeConnect()">
-      <img src="../../assets/line-back-2.svg" class="arrow-back mt-5 ml-5" />
+    <div class="absolute right-0 top-0 cursor-pointer" (click)="closeConnect()">
+      <img src="../../assets/star-close.svg" class="arrow-back mt-5 mr-5" />
     </div>
-    <div class="flex flex-row self-center justify-center align-center mt-2">
+    <div class="flex flex-row self-center justify-center align-center mt-6">
       <p class="font-bold text-2xl text-stone-700">Select Your Wallet</p>
     </div>
     <div
       class="flex flex-row self-center justify-center align-center pt-2 pb-5"
     >
-      <p class="text-lg text-center text-stone-600">
+      <p class="w-80 text-base text-center text-stone-600">
         By connecting your wallet , you agree to our
         <span class="text-stone-950 underline">Terms of Service</span> and our
         <span class="text-stone-950 underline">Privacy Policy</span>
@@ -53,14 +53,7 @@
         </div>
       </div>
 
-      <div
-        class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-lg my-1 hover:border-violet-300 hover:bg-violet-100"
-      >
-        <div><img src="../../assets/phantom.png" class="img-logo" /></div>
-        <div class="self-center">
-          <p class="text-stone-700 ml-3">Phantom</p>
-        </div>
-      </div>
+  
     </div>
 
     <div
@@ -73,7 +66,7 @@
 
     <div class="flex self-center justify-center align-center w-full">
       <form
-      class="w-full"
+        class="w-full"
         *ngIf="!pdLessPart_1"
         [formGroup]="loginForm"
         (ngSubmit)="onSubmit()"
@@ -117,7 +110,7 @@
     class="flex flex-col justify-center self-center py-5"
   >
     <div class="absolute left-0 top-0 cursor-pointer" (click)="closeConnect()">
-      <img src="../../assets/line-back-2.svg" class="arrow-back mt-5 ml-5" />
+      <img src="../../assets/star-close.svg" class="arrow-back mt-5 mr-5" />
     </div>
     <div class="flex flex-row self-center justify-center align-center">
       <p class="font-bold text-2xl text-stone-700">Verify code</p>
