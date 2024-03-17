@@ -1,0 +1,61 @@
+[
+  {
+    "id": "1",
+    "name": "Golden Dragon",
+    "description": "A legendary dragon with golden scales.",
+    "image": "golden_dragon.png",
+    "owner": "0x123456789abcdef",
+    "price": "2.5 ETH",
+    "img":"../../../assets/ape1.png"
+  },
+  {
+    "id": "2",
+    "name": "Silver Phoenix",
+    "description": "A mythical bird reborn from ashes.",
+    "image": "silver_phoenix.png",
+    "owner": "0xfedcba987654321",
+    "price": "3.2 ETH",
+    "img":"../../../assets/ape2.png"
+
+  },
+  {
+    "id": "3",
+    "name": "Emerald Golem",
+    "description": "A powerful golem made of emerald.",
+    "image": "emerald_golem.png",
+    "owner": "0xabcdef123456789",
+    "price": "1.8 ETH",
+    "img":"../../../assets/ape3.webp"
+
+  },
+  {
+    "id": "1",
+    "name": "Golden Dragon",
+    "description": "A legendary dragon with golden scales.",
+    "image": "golden_dragon.png",
+    "owner": "0x123456789abcdef",
+    "price": "2.5 ETH",
+    "img":"../../../assets/ape1.png"
+
+  },
+  {
+    "id": "2",
+    "name": "Silver Phoenix",
+    "description": "A mythical bird reborn from ashes.",
+    "image": "silver_phoenix.png",
+    "owner": "0xfedcba987654321",
+    "price": "3.2 ETH",
+    "img":"../../../assets/ape2.png"
+
+  },
+  {
+    "id": "3",
+    "name": "Emerald Golem",
+    "description": "A powerful golem made of emerald.",
+    "image": "emerald_golem.png",
+    "owner": "0xabcdef123456789",
+    "price": "1.8 ETH",
+    "img":"../../../assets/ape3.webp"
+
+  }
+]

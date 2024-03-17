@@ -16,7 +16,7 @@
   >
     <div class="flex flex-col choice1 bg-white">
       <div
-        class="flex flex-row hover:shadow-stone-100 rounded-lg p-6 h-72 border-2 border-violet-100 hover:border-violet-300"
+        class="flex flex-row hover:shadow-stone-100 rounded-xl p-6 h-72 border-2 border-violet-100 hover:border-violet-300"
         (drop)="onFileDropped($event)"
         (dragover)="onDragOver($event)"
       >
@@ -44,7 +44,7 @@
     <div class="flex flex-col choice1">
       <form>
         <div
-          class="add-collection items-center bg-white border-2 border-violet-100 hover:border-violet-300"
+          class="add-collection items-center rounded-xl bg-white border-2 border-violet-100 hover:border-violet-300"
           (click)="addCollection()"
         >
           <div
@@ -61,7 +61,7 @@
         <label>Collection name :</label>
         <input
           type="text"
-          class="w-full rounded-lg p-3 bg-white border-2 border-violet-100 hover:border-violet-300 my-2"
+          class="w-full rounded-xl p-3 bg-white border-2 border-violet-100 hover:border-violet-300 my-2"
           formControlName="email"
           pInputText
           placeholder="Name your NFT"
@@ -70,7 +70,7 @@
 
         <input
           type="text"
-          class="w-full rounded-lg p-3 bg-white border-2 border-violet-100 hover:border-violet-300 my-2"
+          class="w-full rounded-xl p-3 bg-white border-2 border-violet-100 hover:border-violet-300 my-2"
           formControlName="email"
           pInputText
           placeholder="Supply"
@@ -79,7 +79,7 @@
 
         <input
           type="text"
-          class="w-full rounded-lg p-3 bg-white border-2 border-violet-100 hover:border-violet-300 my-2"
+          class="w-full rounded-xl p-3 bg-white border-2 border-violet-100 hover:border-violet-300 my-2"
           formControlName="email"
           pInputText
           placeholder="External Link"
@@ -89,14 +89,14 @@
         <textarea
           rows="5"
           cols="30"
-          class="w-full rounded-lg p-3 bg-white border-2 border-violet-100 hover:border-violet-300 my-2"
+          class="w-full rounded-xl p-3 bg-white border-2 border-violet-100 hover:border-violet-300 my-2"
           placeholder="Enter a description"
           pInputTextarea
         ></textarea>
 
         <div class=" flex justify-end self-end">
           <button
-            class="bg-violet-300 hover:bg-violet-500 hover:text-white px-8 py-2 rounded-lg"
+            class="bg-violet-400 hover:bg-violet-500 hover:text-white px-8 py-2 rounded-lg"
           >
             Continue
           </button>
