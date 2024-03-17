@@ -18,7 +18,7 @@
     <div></div>
     <div class="flex flex-col">
       <div
-        class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-md my-1 hover:border-violet-300 hover:bg-violet-100"
+        class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-xl my-1 hover:border-violet-300 hover:bg-violet-100"
         (click)="metamaskConnect()"
       >
         <div><img src="../../assets/metamask.png" class="img-logo" /></div>
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div
-        class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-md my-1 hover:border-violet-300 hover:bg-violet-100"
+        class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-xl my-1 hover:border-violet-300 hover:bg-violet-100"
       >
         <div><img src="../../assets/coinbase.png" class="img-logo" /></div>
         <div class="self-center">
@@ -36,7 +36,7 @@
       </div>
 
       <div
-        class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-md my-1 hover:border-violet-300 hover:bg-violet-100"
+        class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-xl my-1 hover:border-violet-300 hover:bg-violet-100"
       >
         <div><img src="../../assets/trust.png" class="img-logo" /></div>
         <div class="self-center">
@@ -45,7 +45,7 @@
       </div>
 
       <div
-        class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-md my-1 hover:border-violet-300 hover:bg-violet-100"
+        class="flex flex-row px-4 py-3 border-2 border-violet-100 rounded-xl my-1 hover:border-violet-300 hover:bg-violet-100"
       >
         <div><img src="../../assets/math-wallet.png" class="img-logo" /></div>
         <div class="self-center">
@@ -74,13 +74,13 @@
         <div class="flex flex-row mb-4">
           <input
             type="text"
-            class="w-full rounded-tl-md rounded-bl-md p-3 mt-1 border-2 border-solid border-violet-200 hover:border-violet-300 outline-none"
+            class="w-full rounded-tl-xl rounded-bl-xl p-3 mt-1 border-2 border-solid border-violet-200 hover:border-violet-300 outline-none"
             formControlName="email"
             placeholder="Email"
             style="padding-right: 1rem"
           />
           <button
-            class="rounded-tr-md rounded-br-md p-3 mt-1 bg-purple-300 hover:bg-purple-400"
+            class="rounded-tr-xl rounded-br-xl p-3 mt-1 bg-purple-300 hover:bg-purple-400"
             [ngClass]="{
               'bg-purple-300':
                 (!loginForm.controls['email'].pristine &&

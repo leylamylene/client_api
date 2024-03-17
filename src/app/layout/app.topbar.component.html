@@ -12,17 +12,17 @@
     <div class=" burger self-center mt-1 ml-4
     ">
       <button
-        class="mx-1 bg-none text-violet-800 font-medium medium rounded px-2 py-1"
+        class="mx-1 bg-none text-violet-800 font-medium   px-2 py-1"
       >
         Drops
       </button>
       <button
-        class="mx-1 bg-none text-violet-800 font-medium rounded px-2 py-1"
+        class="mx-1 bg-none text-violet-800 font-medium  px-2 py-1"
       >
         Stats
       </button>
       <button
-        class="mx-1 bg-none text-violet-800 font-medium rounded px-2 py-1"
+        class="mx-1 bg-none text-violet-800 font-medium  px-2 py-1"
         [routerLink]="'/mint'"
       >
         Create
@@ -32,26 +32,26 @@
   </div>
   <div class="hide md:flex mx-6 ">
     <input
-      class=" w-96 rounded-lg p-3 bg-stone-100 hover:bg-violet-100 outline-none"
+      class=" w-96 rounded-full p-2 px-3 border border-violet-300 hover:bg-violet-100 outline-none"
       type="text"
       placeholder="Search..."
     />
   </div>
   <div class="flex items-center">
     <button
-      class="ml-2 bg-violet-400 hover:bg-violet-500 rounded-lg px-3 py-3 text-stone-50 text-sm font-medium"
+      class="ml-2 text-violet-800 bg-violet-100 border border-violet-200 hover:bg-violet-500 rounded-xl px-3 py-3 hover:text-stone-50 text-sm font-medium"
       (click)="openConnect()"
     >
       <p>Connect Wallet</p>
     </button>
     <button
-      class="ml-2 bg-stone-200 rounded-lg px-3 py-3 text-stone-50 text-sm font-medium"
+      class="ml-2  rounded-lg px-3 py-3 text-stone-50 text-sm font-medium"
     >
       <img src="../../assets/profile.svg" class="icone" />
     </button>
 
     <button
-      class="ml-2 bg-stone-200 rounded-lg px-3 py-3 text-stone-50 text-sm font-medium"
+      class="ml-2  rounded-lg px-3 py-3 text-stone-50 text-sm font-medium"
     >
       <img src="../../assets/cart.svg" class="icone" />
     </button>

@@ -1,6 +1,15 @@
 <div class="layout-wrapper">
   <app-topbar></app-topbar>
   <div class="layout-main-container">
-    <div class="layout-main"></div>
+    <div class="layout-main">
+      <div class="container mx-auto bg-stone-100  flex-initial ">
+        <app-hot-bids
+          class="block rounded-3xl  p-2 py-5 sm:p-10"
+          *ngIf="this.hotBids.length > 0"
+          [items]="this.hotBids"
+        >
+        </app-hot-bids>
+      </div>
+    </div>
   </div>
 </div>
