@@ -3,7 +3,7 @@
     <button
       *ngIf="this.slideConfig.showLeftRightArrow"
       (click)="prev()"
-      class="w-8 sm:w-10 sm:h-10 h-8 rounded-full flex bg-white text-slate-800"
+      class="w-8 sm:w-10 sm:h-10 h-8 rounded-full flex bg-violet-400 text-stone-100"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -31,12 +31,12 @@
           class="cursor-pointer"
           (click)="this.onSelect.emit(bid)"
           [style.width.px]="this.slideWidth"
-          *ngFor="let bid of this.getItems() "
+          *ngFor="let bid of this.getItems()"
         >
           <ng-content
             *ngTemplateOutlet="
               template || defaultTemplate;
-              context: { $implicit: bid  }
+              context: { $implicit: bid }
             "
           ></ng-content>
         </li>
@@ -45,7 +45,7 @@
     <button
       *ngIf="this.slideConfig.showLeftRightArrow"
       (click)="next()"
-      class="w-8 sm:w-10 sm:h-10 h-8 rounded-full flex bg-white text-slate-800"
+      class="w-8 sm:w-10 sm:h-10 h-8 rounded-full flex bg-violet-400 text-stone-100"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +81,7 @@
 
 <ng-template #defaultTemplate let-index let-item let-width="slideWidth">
   <div
-    class="flex flex-col mb-12  mx-5 rounded-3xl bg-white px-5 py-8 text-slate-800 font-semibold text-center border-1 border-violet-800 border-opacity-10 transition-transform duration-300 ease-in-out hover:transform hover:translate-y-3 hover:shadow-lg hover:shadow-stone-200"
+    class="flex flex-col mb-12 mx-5 rounded-3xl bg-white pb-3 text-slate-800 font-semibold text-center border-1 border-violet-800 border-opacity-10 transition-transform duration-300 ease-in-out hover:transform hover:translate-y-3 hover:shadow-lg hover:shadow-stone-200"
     (mouseenter)="onMouseEnter(item)"
     (mouseleave)="onMouseLeave(item)"
   >
@@ -98,23 +98,37 @@
     <div class="flex flex-row justify-between items-stretch mb-4 px-3">
       <div>Great art</div>
 
-      <div class="text-base font-normal">11 eth</div>
+      <p class="self-end p-1">35:25:26 s</p>
     </div>
 
     <div class="w-11/12 self-center border border-t-0 border-violet-200"></div>
 
     <div class="flex flex-row justify-between items-stretch my-2 px-3">
       <div class="flex flex-col items-start">
-        <p class="text-base font-normal text-stone-400">Current bid</p>
         <p class="font-semibold text-stone-900 p-1">356</p>
       </div>
 
       <div class="flex flex-col items-start">
-        <p class="text-base font-normal text-stone-400">Auction ends in</p>
-        <p class="self-end p-1">35:25:26 s</p>
+        <button  *ngIf="mouseEntered(item)"
+          class="w-full rounded-2xl py-2 px-6 bg-violet-300 text-white hover:bg-violet-500 hover:text-white"
+        >
+          Place a bid
+        </button>
+
+        <button  *ngIf="!mouseEntered(item)"
+        class="w-full rounded-2xl py-2 px-6 bg-white text-violet-500 border-2 border-violet-300 hover:bg-violet-500 hover:text-white"
+      >
+        Place a bid
+      </button>
       </div>
     </div>
 
-    <div *ngIf="mouseEntered(item)" class="w-full px-2"><button class="w-full rounded-lg py-3  bg-violet-400 text-white hover:bg-violet-500  hover:text-white">Place a bid</button></div>
+    <!-- <div *ngIf="mouseEntered(item)" class="w-full px-2">
+      <button
+        class="w-full rounded-xl py-3 bg-violet-400 text-white hover:bg-violet-500 hover:text-white"
+      >
+        Place a bid
+      </button>
+    </div> -->
   </div>
 </ng-template>

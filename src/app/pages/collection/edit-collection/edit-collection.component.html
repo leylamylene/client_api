@@ -1,0 +1,136 @@
+<div
+  class="flex fixed top-0 w-full bg-white border-b-2 border-opacity-0.25 px-10 py-2 z-10"
+>
+  <div
+    class="flex justify-center items-center gap-y-3 gap-x-2 bg-white px-4 ml-6 rounded-xl border-2 border-violet-200 cursor-pointer"
+  >
+    <img src="../../../../assets/line-back-2.svg" class="" />
+    <div>Edit collection</div>
+  </div>
+  <div class="flex flex-grow flex-col gap-y-3 -5 items-end">
+    <button
+      class="rounded-xl px-10 py-2 bg-white border-2 border-violet-200 hover:bg-violet-400 hover:text-white text-violet-600"
+    >
+      Balance
+    </button>
+  </div>
+</div>
+
+<div class="flex gap-x-2">
+  <div
+    #sideMenu
+    class="fixed h-full w-60 min-w-40 flex-col gap-y-3 bg-stone-100 px-5 py-24 border-violet-200"
+  >
+    <div class="flex flex-col justify-start items-center gap-y-2 gap-x-2 pb-5">
+      <img class="w-14 h-14 rounded-full" src="../../../../assets/logo.png" />
+      <p class="font-bold text-stone-600">Collection name</p>
+    </div>
+
+    <div class="rounded-lg bg-violet-200 hover:bg-violet-200 px-3 py-2 mb-2">
+      Details
+    </div>
+    <div class="rounded-lg hover:bg-violet-200 px-3 py-2 mb-2">Earnings</div>
+    <div class="rounded-lg hover:bg-violet-200 px-3 py-2 mb-2">Settings</div>
+    <div class="rounded-lg hover:bg-violet-200 px-3 py-2 mb-2">Pre-reveal</div>
+    <div class="rounded-lg hover:bg-violet-200 px-3 py-2 mb-2">Earnings</div>
+  </div>
+
+  <div
+    #detail
+    class="flex flex-col ml-60 items-center flex-grow bg-stone-50 rounded-tl-3xl rounded-bl-3xl pr-10 pt-24 pb-20"
+  >
+    <div #title class="self-center font-bold text-stone-700 text-3xl">
+      Collection detail
+    </div>
+
+    <div class="flex flex-col gap-y-3 w-1/2 min-w-96">
+      <label class="mb-0.25">Name *</label>
+
+      <input
+        class="w-full rounded-xl py-2 px-3 outline-none bg-white border-2 border-violet-200 hover:border-violet-300"
+      />
+      <label class="mb-0.25">Description</label>
+
+      <textarea
+        class="w-full rounded-xl py-2 px-3 outline-none bg-white border-2 border-violet-200 hover:border-violet-300"
+        name=""
+        id=""
+      ></textarea>
+      <label class="mb-0.25">URL</label>
+
+      <input
+        class="w-full rounded-xl py-2 px-3 outline-none bg-white border-2 border-violet-200 hover:border-violet-300"
+        placeholder="http://opensea.io/collection/neffty"
+      />
+
+      <!-- dropdown picker -->
+      <label
+        for="countries"
+        class="block mb-0.25 text-sm font-medium text-gray-900 dark:text-white"
+        >Select a ccategory</label
+      >
+      <select
+        id="countries"
+        class="bg-white border-2 border-violet-200 rounded-xl focus:border-violet-200 hover:border-violet-300 block w-full py-2 px-3"
+      >
+        <option selected>Choose a</option>
+        <option value="US">fsfs</option>
+        <option value="CA">fwf</option>
+        <option value="FR">fwf</option>
+        <option value="DE">fwf</option>
+      </select>
+
+      <label
+        for="countries"
+        class="block mb-0.25 text-sm font-medium text-gray-900 dark:text-white"
+        >Select a blockchain</label
+      >
+      <select
+        id="countries"
+        class="bg-white border-2 border-violet-200 rounded-xl focus:border-violet-200 hover:border-violet-300 block w-full py-2 px-3"
+      >
+        <option selected>Choose a</option>
+        <option value="US">fsfs</option>
+        <option value="CA">fwf</option>
+        <option value="FR">fwf</option>
+        <option value="DE">fwf</option>
+      </select>
+
+      <label class="mb-0.25">Payment token</label>
+      <div class="flex gap-x-3">
+        <div
+          class="bg-white border-2 border-violet-200 w-fit rounded-xl hover:border-violet-400 py-2 px-4"
+        >
+          ETH
+        </div>
+
+        <div
+          class="bg-white border-2 border-violet-200 w-fit rounded-xl hover:border-violet-400 py-2 px-4"
+        >
+          WETH
+        </div>
+      </div>
+      <select
+        id="countries"
+        class="bg-white border-2 border-violet-200 rounded-xl focus:border-violet-200 hover:border-violet-300 block w-full py-2 px-3"
+      >
+        <option selected>Add a token</option>
+        <option value="US">fsfs</option>
+        <option value="CA">fwf</option>
+        <option value="FR">fwf</option>
+        <option value="DE">fwf</option>
+      </select>
+
+      <label class="mb-0.25">Featured image</label>
+      <div
+        class="border-2 border-violet-200 hover:border-violet-300 h-36 rounded-xl bg-white flex flex-col items-center justify-center"
+      >
+        <div>+</div>
+        <div>Recommended size : 600 x 400</div>
+      </div>
+
+      <label>collaborators</label>
+      <a>Add collaborator</a>
+    </div>
+  </div>
+</div>

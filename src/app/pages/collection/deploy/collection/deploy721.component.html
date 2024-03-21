@@ -1,4 +1,6 @@
-<div class="flex flex-col justify-center items-center self-center mt-10">
+
+
+<div class="flex flex-col justify-center items-center self-center mt-10 pb-20">
   <div class="flex flex-col md:flex-1 w-1/2">
     <div class="">
       <p class="text-xl font-semibold text-stone-700">
@@ -43,8 +45,26 @@
     </div>
   </div>
 
+  <div class="flex md:flex-row flex-col w-1/2 gap-x-3 gap-y-3">
+    <div class="md:flex-grow">
+      <label class="flex flex-col"> Collection Name</label>
+      <input
+        class="rounded-xl p-2 border-2 border-violet-100 hover:border-violet-300 w-full"
+        placeholder="Your collection name"
+      />
+    </div>
+
+    <div class="md:flex-1">
+      <label>Symbol</label>
+
+      <input
+        class="rounded-xl p-2 border-2 border-violet-100 hover:border-violet-300 w-full"
+        placeholder="Your NFT symbol"
+      />
+    </div>
+  </div>
   <div
-    class="flex md:flex-row flex-col w-1/2 justify-center gap-x-8 mt-5 mb-20"
+    class="flex md:flex-row flex-col w-1/2 justify-center gap-x-8 gap-y-3 mt-5 mb-20"
   >
     <div
       class="flex md:flex-col flex-row gap-2 md:flex-1 md:h-auto h-auto p-3 bg-white border-2 border-violet-100 hover:border-violet-300 rounded-xl"
@@ -97,5 +117,15 @@
       </div>
       <div></div>
     </div>
+  </div>
+
+
+
+
+  
+  <div class=" flex self-center w-1/2 justify-end ">
+    <button class="rounded-xl px-4 py-2 bg-violet-300 hover:bg-violet-400 text-white" >
+      Continue
+    </button>
   </div>
 </div>
