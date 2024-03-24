@@ -4,13 +4,13 @@ pragma solidity ^0.8.0;
 /// @author thirdweb
 
 import {ERC1155} from "./ERC1155.sol";
-import "../extension/ContractMetaData.sol";
-import "../extension/Multicall.sol";
-import "../extension/Ownable.sol";
-import "../extension/Royalty.sol";
-import "../extension/BatchMintMetadata.sol";
+import "./ContractMetaData.sol";
+import "./Multicall.sol";
+import "./Ownable.sol";
+import "./Royalty.sol";
+import "./BatchMintMetaData.sol";
 
-import "../library/Strings.sol";
+import "./Strings.sol";
 
 /**
  *  The `ERC1155Base` smart contract implements the ERC1155 NFT standard.

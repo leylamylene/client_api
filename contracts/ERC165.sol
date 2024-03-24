@@ -3,7 +3,7 @@
 
 
 pragma solidity ^0.8.20;
-import "../eip/IERC165.sol";
+import "./IERC165.sol";
 
 
 abstract contract ERC165 is IERC165 {

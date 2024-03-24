@@ -1,4 +1,4 @@
-// SPDX-Licence-Identifier : UNLICENCED
+// SPDX-Licence-Identifier : MIT
 pragma solidity ^0.8.19;
 
 /// @author Laila El hajjamy, thirdweb
@@ -9,12 +9,12 @@ import "@openzeppelin/contracts/interfaces/IERC2981.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import "./IMarketplace.sol";
-import "../main-contracts/extension/Permissions.sol";
+import "./Permissions.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
-import "../main-contracts/eip/IERC721A.sol";
-import "../main-contracts/extension//ReentrancyGuard.sol";
-import "../main-contracts/library/CurrencyTransferLib.sol";
+import "./IERC721A.sol";
+import "./ReentrancyGuard.sol";
+import "./CurrencyTransferLib.sol";
 
 contract Marketplace is
   IPlatformFee,

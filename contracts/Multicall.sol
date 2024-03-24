@@ -3,9 +3,9 @@
 pragma solidity ^0.8.0;
 /// @author Laila El Hajjamy, thirdweb
 
-import "../library/Address.sol";
+import "./Address.sol";
 
-import "../interfaces/IMulticall.sol";
+import "./IMulticall.sol";
 
 contract Multicall is IMulticall {
   function muticall(

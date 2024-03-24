@@ -3,28 +3,28 @@ pragma solidity ^0.8.0;
 
 /// @author Laila E l Hajjamy, thirdweb
 
-import "../base/ERC721A.sol";
-import "../extension/ContractMetaData.sol";
+import "./ERC721A.sol";
+import "./ContractMetaData.sol";
 
-import "../extension/Ownable.sol";
+import "./Ownable.sol";
 
-import "../extension/Royalty.sol";
+import "./Royalty.sol";
 
-import "../extension/BatchMintMetaData.sol";
+import "./BatchMintMetaData.sol";
 
-import "../extension/PrimarySale.sol";
+import "./PrimarySale.sol";
 
-import "../extension/LazyMint.sol";
+import "./LazyMint.sol";
 
-import "../extension/DelayedReveal.sol";
+import "./DelayedReveal.sol";
 
-import "../extension/PlatformFee.sol";
+import "./PlatformFee.sol";
 
-import "../extension/DropSinglePhase.sol";
-import "../extension/Multicall.sol";
-import "../library/Strings.sol";
+import "./DropSinglePhase.sol";
+import "./Multicall.sol";
+import "./Strings.sol";
 
-import {CurrencyTransferLib} from "../library/CurrencyTransferLib.sol";
+import {CurrencyTransferLib} from "./CurrencyTransferLib.sol";
 
 contract ERC721Drop is
   ERC721A,
@@ -42,17 +42,20 @@ contract ERC721Drop is
   using Strings for uint256;
 
   // setApprovalForAll(operator, true) to let the market transfers nfts
-  constructor(
-    address _defaultAdmin,
+
+  function initialize(
     string memory _name,
     string memory _symbol,
+    address _defaultAdmin,
     address _royaltyRecipient,
     uint128 _royaltyBps,
     address _primarySaleRecipient,
     address _platfromFeeRecipient,
     uint256 _platformFeeBps,
     address operator
-  ) ERC721A(_name, _symbol) {
+  ) public {
+    ERC721A erc721a = new ERC721A();
+    erc721a.initialize(_name, _symbol);
     _setupOwner(_defaultAdmin);
     _setupDefaultRoyaltyInfo(_royaltyRecipient, _royaltyBps);
     _setupPrimarySaleRecipient(_primarySaleRecipient);

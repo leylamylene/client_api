@@ -3,7 +3,7 @@
 pragma solidity ^0.8.0;
 
 /// @author Laila El Hajjamy , thirdweb
-import "../interfaces/IContractMetaData.sol";
+import "./IContractMetaData.sol";
 
 abstract contract ContractMetaData is IContractMetaData {
   /// @dev The sender is not authorized to perform the action

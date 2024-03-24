@@ -3,8 +3,8 @@ pragma solidity ^0.8.0;
 
 /// @author thirdweb , Laila El Hajjamy
 
-import "../interfaces/IPermissions.sol";
-import "../library/Strings.sol";
+import "./IPermissions.sol";
+import "./Strings.sol";
 
 abstract contract Permissions is IPermissions {
   error PermissionsUnauthorizedAccount(address account, bytes32 neededRole);
