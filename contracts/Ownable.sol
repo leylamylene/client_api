@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "../interfaces/IOwnable.sol";
+import "./IOwnable.sol";
 
 abstract contract Ownable is IOwnable {
   error OwnableUnauthorized();

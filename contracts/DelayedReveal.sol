@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 /// @author Laila El Hajjamy , thirdweb
 
-import "../interfaces/IDelayedReveal.sol";
+import "./IDelayedReveal.sol";
 
 abstract contract DelayedReveal is IDelayedReveal {
   error DelayedRevealNothingToReveal();

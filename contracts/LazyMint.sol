@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "../interfaces/ILazyMint.sol";
+import "./ILazyMint.sol";
 import "./BatchMintMetaData.sol";
 
 abstract contract LazyMint is ILazyMint, BatchMintMetaData {

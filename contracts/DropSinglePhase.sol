@@ -3,8 +3,8 @@ pragma solidity ^0.8.0;
 
 /// @author thirdweb , thirdweb
 
-import "../interfaces/IDropSinglePhase.sol";
-import "../library/MerkleProof.sol";
+import "./IDropSinglePhase.sol";
+import "./MerkleProof.sol";
 
 abstract contract DropSinglePhase is IDropSinglePhase {
   /// @dev The sender is not authorized to perform the action

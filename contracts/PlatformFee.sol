@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 /// @author Laila El Hajjamy, thirdweb
 
-import "../interfaces/IPlatformFee.sol";
+import "./IPlatformFee.sol";
 
 abstract contract PlatformFee is IPlatformFee {
   address private platformFeeRecipient;

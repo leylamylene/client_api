@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 /// @author Laila El Hajjamy, thirdweb
 
-import "../interfaces/IPrimarySale.sol";
+import "./IPrimarySale.sol";
 
 abstract contract PrimarySale is IPrimarySale {
   error PrimarySaleUnauthorized();

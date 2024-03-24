@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 /// @author Laila El Hajjamy, thirdweb
 
-import "../interfaces/IRoyalty.sol";
+import "./IRoyalty.sol";
 
 abstract contract Royalty is IRoyalty {
   error RoyaltyUnauthorized();

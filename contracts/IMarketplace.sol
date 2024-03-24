@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 /// @author Laila El Hajjamy, thirdweb
 
-import "../main-contracts/interfaces/IPlatformFee.sol";
+import "./IPlatformFee.sol";
 
 interface IMarketplace is IPlatformFee {
   enum TokenType {

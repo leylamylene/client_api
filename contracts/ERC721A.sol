@@ -4,7 +4,7 @@
 
 pragma solidity ^0.8.4;
 
-import "../eip/IERC721A.sol";
+import "./IERC721A.sol";
 
 /**
  * @dev Interface of ERC721 token receiver.
@@ -144,7 +144,12 @@ contract ERC721A is IERC721A {
   //                          CONSTRUCTOR
   // =============================================================
 
-  constructor(string memory name_, string memory symbol_) {
+  constructor() {
+
+  }
+
+
+  function initialize(string memory name_ ,string memory symbol_ ) external {
     _name = name_;
     _symbol = symbol_;
     _currentIndex = _startTokenId();
@@ -152,7 +157,6 @@ contract ERC721A is IERC721A {
     if (_sequentialUpTo() < _startTokenId())
       _revert(SequentialUpToTooSmall.selector);
   }
-
   // =============================================================
   //                   TOKEN COUNTING OPERATIONS
   // =============================================================

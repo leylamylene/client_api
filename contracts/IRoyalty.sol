@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 /// @author Laila El Hajjamy, thirdweb
 
-import "../eip/IERC2981.sol";
+import "./IERC2981.sol";
 
 interface IRoyalty is IERC2981 {
   struct RoyaltyInfo {
