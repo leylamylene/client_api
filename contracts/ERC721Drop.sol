@@ -43,7 +43,7 @@ contract ERC721Drop is
 
   // setApprovalForAll(operator, true) to let the market transfers nfts
 
-  function initialize(
+  function init(
     string memory _name,
     string memory _symbol,
     address _defaultAdmin,
@@ -53,15 +53,15 @@ contract ERC721Drop is
     address _platfromFeeRecipient,
     uint256 _platformFeeBps,
     address operator
-  ) public {
-    ERC721A erc721a = new ERC721A();
-    erc721a.initialize(_name, _symbol);
+  ) public initializer {
+    initialize(_name , _symbol);
     _setupOwner(_defaultAdmin);
     _setupDefaultRoyaltyInfo(_royaltyRecipient, _royaltyBps);
     _setupPrimarySaleRecipient(_primarySaleRecipient);
     _setupPlatformFeeInfo(_platfromFeeRecipient, _platformFeeBps);
     setApprovalForAll(operator, true);
   }
+
 
   function tokenURI(
     uint256 _tokenId

@@ -5,6 +5,7 @@
 pragma solidity ^0.8.4;
 
 import "./IERC721A.sol";
+import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
 /**
  * @dev Interface of ERC721 token receiver.
@@ -36,7 +37,7 @@ interface ERC721A__IERC721Receiver {
  * - An owner cannot have more than 2**64 - 1 (max value of uint64) of supply.
  * - The maximum token ID cannot exceed 2**256 - 1 (max value of uint256).
  */
-contract ERC721A is IERC721A {
+contract ERC721A is IERC721A , Initializable{
   // Bypass for a `--via-ir` bug (https://github.com/chiru-labs/ERC721A/pull/364).
   struct TokenApprovalRef {
     address value;
@@ -144,12 +145,7 @@ contract ERC721A is IERC721A {
   //                          CONSTRUCTOR
   // =============================================================
 
-  constructor() {
-
-  }
-
-
-  function initialize(string memory name_ ,string memory symbol_ ) external {
+  function  initialize(string memory name_, string memory symbol_) public initializer {
     _name = name_;
     _symbol = symbol_;
     _currentIndex = _startTokenId();
@@ -157,6 +153,7 @@ contract ERC721A is IERC721A {
     if (_sequentialUpTo() < _startTokenId())
       _revert(SequentialUpToTooSmall.selector);
   }
+
   // =============================================================
   //                   TOKEN COUNTING OPERATIONS
   // =============================================================
