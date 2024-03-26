@@ -6,6 +6,7 @@ pragma solidity ^0.8.0;
 import "./IPlatformFee.sol";
 
 abstract contract PlatformFee is IPlatformFee {
+  error PlatformFeeUnauthorized();
   address private platformFeeRecipient;
   uint16 private platformFeeBps;
 
@@ -27,6 +28,9 @@ abstract contract PlatformFee is IPlatformFee {
     address _platformFeeRecipient,
     uint256 _platformFeeBps
   ) external {
+    if (!_canSetPlatformFeeInfo()) {
+      revert PlatformFeeUnauthorized();
+    }
     _setupPlatformFeeInfo(_platformFeeRecipient, _platformFeeBps);
   }
 
@@ -41,4 +45,6 @@ abstract contract PlatformFee is IPlatformFee {
 
     emit PlatformFeeUpdated(_platformFeeRecipient, _platformFeeBps);
   }
+
+  function _canSetPlatformFeeInfo() internal view  virtual returns (bool) {}
 }

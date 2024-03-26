@@ -145,7 +145,7 @@ contract ERC721A is IERC721A , Initializable{
   //                          CONSTRUCTOR
   // =============================================================
 
-  function  initialize(string memory name_, string memory symbol_) public initializer {
+  function  initialize(string memory name_, string memory symbol_) public payable initializer {
     _name = name_;
     _symbol = symbol_;
     _currentIndex = _startTokenId();

@@ -50,18 +50,14 @@ contract ERC721Drop is
     address _royaltyRecipient,
     uint128 _royaltyBps,
     address _primarySaleRecipient,
-    address _platfromFeeRecipient,
-    uint256 _platformFeeBps,
     address operator
-  ) public initializer {
-    initialize(_name , _symbol);
+  ) public payable initializer {
+    initialize(_name, _symbol);
     _setupOwner(_defaultAdmin);
     _setupDefaultRoyaltyInfo(_royaltyRecipient, _royaltyBps);
     _setupPrimarySaleRecipient(_primarySaleRecipient);
-    _setupPlatformFeeInfo(_platfromFeeRecipient, _platformFeeBps);
     setApprovalForAll(operator, true);
   }
-
 
   function tokenURI(
     uint256 _tokenId
@@ -252,6 +248,10 @@ contract ERC721Drop is
   /*///////////////////////////////////////////////////////////////
                         Miscellaneous
     //////////////////////////////////////////////////////////////*/
+
+  function _canSetPlatformFeeInfo() internal view override returns (bool) {
+    return msg.sender == owner();
+  }
 
   function _dropMsgSender() internal view virtual override returns (address) {
     return msg.sender;
