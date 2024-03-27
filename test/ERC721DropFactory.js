@@ -47,12 +47,15 @@ describe("ERC721DropFactory", function () {
           value: ethers.parseUnits("0.0001", "ether"),
         });
 
-      expect(eRC721DropFactory
-        .connect(owner)
-        .createClone("my first collection", "myc", marketplaceOperator, {
-          value: ethers.parseUnits("0.0001", "ether"),
-        })).not.to.be.reverted;
-
+      const receipt = await tx.wait();
+      expect(receipt.events[0].args.newERC721Drop).to.equal(bob.address);
+      expect(
+        eRC721DropFactory
+          .connect(owner)
+          .createClone("my first collection", "myc", marketplaceOperator, {
+            value: ethers.parseUnits("0.0001", "ether"),
+          })
+      ).not.to.be.reverted;
     });
   });
 });
