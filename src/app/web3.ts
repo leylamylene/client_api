@@ -1,6 +1,6 @@
 import Web3 from "web3";
 
-let web3;
+let web3 :Web3;
 
 if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
   // We are in the browser and metamask is running.
@@ -9,7 +9,7 @@ if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
 } else {
   // We are on the server *OR* the user is not running metamask
   const provider = new Web3.providers.HttpProvider(
-    "https://sepolia.infura.io/v3/c7b1ec7f5ab649239ed9c51d519a5f37"
+    "https://sepolia.infura.io/v3/6630405180d1421cafc30ced1f54a2c8"
   );
   web3 = new Web3(provider);
 }
